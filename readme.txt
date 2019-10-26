@@ -1,4 +1,8 @@
-Git is a version control system.
-Git is free software.
-Git is modify.
-The second modify.
+SoftwareTest里是平时写的一些作业练习
+
+
+
+2019/10/26 MySpringFrame最初版上线，大致功能:实现了读取Xml配置来实例化bean，解决了循环依赖的问题，
+可以通过配置形参名字来找出响应的构造方法进行实例化，参数可以是list和set（内部参数只能为String）。
+
+不足:整体结构乱，没有解决参数对象转化的问题，整体功能实现不完全。
