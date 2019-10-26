@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE myfile[
+        <!ELEMENT myfile (beans)>
+        <!ELEMENT beans (bean*)>
+        <!ELEMENT bean (constructor-arg*,property*)>
+        <!ELEMENT constructor-arg (list*,set*)>
+        <!ELEMENT property (list*,set*)>
+        <!ELEMENT list (value*)>
+        <!ELEMENT set (value*)>
+        <!ELEMENT value (#PCDATA)>
+
+        <!ATTLIST bean
+                id CDATA #IMPLIED
+                class CDATA #REQUIRED
+                scope CDATA "SINGLE">
+        <!ATTLIST constructor-arg
+                ref CDATA #IMPLIED
+                name CDATA #IMPLIED
+                value CDATA #IMPLIED>
+        <!ATTLIST property
+                name CDATA #REQUIRED
+                ref CDATA #IMPLIED
+                value CDATA #IMPLIED>
+        ]>
+<myfile>
+    <beans>
+        <bean class="core.Beans.User">
+            <constructor-arg name="Name" value="何晨阳"/>
+        </bean>
+    </beans>
+</myfile>
