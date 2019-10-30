@@ -26,6 +26,7 @@
     <beans>
         <bean class="core.Beans.User">
             <constructor-arg name="Name" value="何晨阳"/>
+            <constructor-arg name="ID" value="12"/>
         </bean>
     </beans>
 </myfile>

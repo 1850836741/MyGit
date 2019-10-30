@@ -3,9 +3,12 @@ package core.Ioc;
 import core.Beans.InitBean;
 import core.Context.OpenXmlResources;
 import core.Context.ParseBeanNode;
-
 import java.util.Map;
 
+/**
+ * Xml上下文
+ * @param <T>
+ */
 public class XmlBeanFactory<T> implements BeanFactory<T>{
 
     public XmlBeanFactory(){

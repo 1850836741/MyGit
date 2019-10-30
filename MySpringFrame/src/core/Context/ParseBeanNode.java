@@ -59,6 +59,7 @@ public class ParseBeanNode {
                 //解析bean节点的下级节点信息
                 ParseBeanChildNode(xmlParseBeanNode,parameter);
                 XmlParseBeanNodeMap.getXmlParseBeanNodeMap().put(id,xmlParseBeanNode);
+                id="";
             }
         }
     }

@@ -11,17 +11,18 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
+
 /**
- * 对Bean进行初始化
+ * 对Xml配置的Bean进行初始化
  */
 public class InitBean {
 
-
+    /*初始化无参数的bean并做一些初始化前的一些准备*/
     public static void instantiation(String beanId){
         XmlParseBeanNode xmlParseBeanNode = XmlParseBeanNodeMap.getXmlParseBeanNodeMap().get(beanId);
         ClassLoader classLoader = InitBean.class.getClassLoader();
         //无构造参数
-        if (xmlParseBeanNode.getConstructorList()==null&&xmlParseBeanNode.getPropertyList()==null){
+        if (xmlParseBeanNode.getConstructorList().size()==0&&xmlParseBeanNode.getPropertyList().size()==0){
             try {
                 Class beanClass = classLoader.loadClass(xmlParseBeanNode.getClassName());
                 Object beanObject = beanClass.newInstance();
@@ -51,11 +52,11 @@ public class InitBean {
                 AttributeParameter attributeParameter=null;
                 for (int i = 0 ;i < xmlParseBeanNode.getConstructorList().size();i++){
                     attributeParameter = xmlParseBeanNode.getConstructorList().get(i);
-                    if (xmlParseBeanNode.getConstructorList().get(i).getParameterName() != null){
+                    if (attributeParameter.getRefId() != null){
+                        attributeParameter.setParameterExample(getRef(attributeParameter.getRefId()));
+                    }
+                    if (attributeParameter.getParameterName() != null){
                         //如果有依赖，则注入依赖，否则注入配置的值
-                        if (attributeParameter.getRefId() != null){
-                            attributeParameter.setParameterExample(getRef(attributeParameter.getRefId()));
-                        }
                         map.put(attributeParameter.getParameterName(), attributeParameter);
                     }else {
                         list.add(attributeParameter);
@@ -65,8 +66,8 @@ public class InitBean {
                 if (map.size()>0){
                     for (int i =0 ;i<methodBeans.size();i++){
                         //找到与配置构造参数长度相等的构造方法
-                        if (methodBeans.get(i).getNameList().size() == xmlParseBeanNode.getConstructorList().size()){
-                            List<String> nameList = methodBeans.get(i).getNameList();
+                        if (constructors[i].getParameterTypes().length == xmlParseBeanNode.getConstructorList().size()){
+                            List<String> nameList = methodBeans.get(constructors.length-1-i).getNameList();
                             for (String name:map.keySet()){
                                 if (!nameList.contains(name)){
                                     isMatch = false;
@@ -129,7 +130,7 @@ public class InitBean {
             e.printStackTrace();
         }
         return null;
-    }
+}
 
 
 

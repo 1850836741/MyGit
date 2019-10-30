@@ -8,6 +8,14 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="AnnotationType" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="ProjectId" id="1SjrmYHbzizt165zwLhxH08YNNP" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -65,7 +73,23 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1572088005514</updated>
-      <workItem from="1572088006900" duration="3398000" />
+      <workItem from="1572088006900" duration="3562000" />
+      <workItem from="1572099141703" duration="1793000" />
+      <workItem from="1572101116980" duration="3810000" />
+      <workItem from="1572137214196" duration="3581000" />
+      <workItem from="1572144007344" duration="6407000" />
+      <workItem from="1572159036009" duration="3142000" />
+      <workItem from="1572176450333" duration="5698000" />
+      <workItem from="1572184246210" duration="1599000" />
+      <workItem from="1572185919833" duration="355000" />
+      <workItem from="1572186503672" duration="444000" />
+      <workItem from="1572274384679" duration="1262000" />
+      <workItem from="1572308524068" duration="6572000" />
+      <workItem from="1572358426886" duration="481000" />
+      <workItem from="1572417998313" duration="3485000" />
+      <workItem from="1572422631773" duration="98000" />
+      <workItem from="1572422809969" duration="28000" />
+      <workItem from="1572438599220" duration="10329000" />
     </task>
     <servers />
   </component>

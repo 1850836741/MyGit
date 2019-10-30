@@ -26,6 +26,8 @@ public class XmlParseBeanNode {
             this.scope=scope;
             id = className.substring(className.lastIndexOf(".")+1);
             id = id.substring(0,1).toLowerCase().concat(id.substring(1));
+            constructorList = new ArrayList<>();
+            propertyList = new ArrayList<>();
         }
 
         public Builder setScope(String scope) {
