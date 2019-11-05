@@ -9,7 +9,7 @@ import core.Beans.Annotation.ComponentScan;
  */
 @ComponentScan(basePackageClass = Man.class)
 @Component
-public class User {
+public class User implements Person{
     String Name;
     String ID;
     @Autowired

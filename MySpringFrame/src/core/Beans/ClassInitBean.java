@@ -1,5 +1,6 @@
 package core.Beans;
 
+import core.Aop.ParseAspectJ;
 import core.Beans.Annotation.Autowired;
 import core.Ioc.ClassBeanFactory;
 import core.Ioc.readyInstantiationClassMap;
@@ -29,12 +30,17 @@ public class ClassInitBean {
             }
         }
         try {
+            //切面处理
+            ParseAspectJ.Parse(classBeanFactory);
+            //依赖注入
             DI(classBeanFactory,map);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

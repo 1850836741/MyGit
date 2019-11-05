@@ -1,5 +1,7 @@
 package core.Context;
 
+import core.Aop.Annotation.AspectJ;
+import core.Aop.ProxyFactory;
 import core.Beans.Annotation.Component;
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +27,12 @@ public class ParseBeanClass {
 
     /*获取传入的Class的包信息或者设置的包信息*/
     public static void Parse( Class beanClass) throws Exception {
+        if (beanClass.getAnnotation(AspectJ.class)!=null){
+            String name = beanClass.getName();
+            name = name.substring(beanClass.getName().lastIndexOf(".")+1);
+            name = name.substring(0,1).toLowerCase().concat(name.substring(1));
+            ProxyFactory.getFactory().put(name,beanClass);
+        }
         if (beanClass.getAnnotation(ComponentScan.class)!=null){
             ComponentScan componentScan = (ComponentScan) beanClass.getAnnotation(ComponentScan.class);
             ParseComponentScan(componentScan);
@@ -72,6 +80,16 @@ public class ParseBeanClass {
             if (fileInPackage.getName().contains(".class")&&!fileInPackage.getName().contains("$")){
                 String classFullyQualifiedName = beanPackageName.replace("/",".")+"."+fileInPackage.getName().substring(0,fileInPackage.getName().length()-6);
                 Class loadClass = ParseBeanClass.class.getClassLoader().loadClass(classFullyQualifiedName);
+
+
+                //判断该class是否含有AspectJ注解
+                if (loadClass.getAnnotation(AspectJ.class)!=null){
+                    String classID = classFullyQualifiedName.substring(classFullyQualifiedName.lastIndexOf(".")+1);
+                    classID = classID.substring(0,1).toLowerCase().concat(classID.substring(1));
+                    ProxyFactory.getFactory().put(classID,loadClass);
+                }
+
+
                 //判断该class是否含有Component注解
                 if (loadClass.getAnnotation(Component.class)!=null){
                     Component component = (Component) loadClass.getAnnotation(Component.class);

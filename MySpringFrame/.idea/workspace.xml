@@ -13,6 +13,7 @@
       <list>
         <option value="AnnotationType" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -90,6 +91,18 @@
       <workItem from="1572422631773" duration="98000" />
       <workItem from="1572422809969" duration="28000" />
       <workItem from="1572438599220" duration="10329000" />
+      <workItem from="1572481657348" duration="439000" />
+      <workItem from="1572694594398" duration="9209000" />
+      <workItem from="1572747198516" duration="1974000" />
+      <workItem from="1572858094201" duration="4632000" />
+      <workItem from="1572872296314" duration="1327000" />
+      <workItem from="1572874384046" duration="101000" />
+      <workItem from="1572874889138" duration="2000" />
+      <workItem from="1572876562409" duration="2737000" />
+      <workItem from="1572918641709" duration="1872000" />
+      <workItem from="1572920686181" duration="5478000" />
+      <workItem from="1572938812298" duration="2872000" />
+      <workItem from="1572960166624" duration="6403000" />
     </task>
     <servers />
   </component>

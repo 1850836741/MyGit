@@ -33,6 +33,11 @@ public class ClassBeanFactory implements BeanFactory{
 
     @Override
     public Object getBean(Class beanClass) {
+        for (String name:map.keySet()){
+            if (map.get(name).getClass().equals(beanClass)){
+                return map.get(name);
+            }
+        }
         return null;
     }
 
