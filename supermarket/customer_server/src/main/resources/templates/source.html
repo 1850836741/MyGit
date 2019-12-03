@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>货源管理</title>
+</head>
+<body>
+<a th:href="@{/toIndex}">返回主页</a>
+<form action="#" th:action="@{/AGetSourceByTime}" method="post">
+    <input type="text" th:name="source_order_time">
+    <input type="submit" value="搜索指定日期订单">
+</form>
+<div th:if="${sources!=null}">
+    <table>
+        <tr th:each="source:${sources}">
+            <td>
+                <span th:text="货源订单号${source.getSource_order_id()}"/>
+                <span th:text="货源总计${source.getSource_order_total_sum()}"/>
+                <span th:text="货源地${source.getSource_order_place()}"/>
+                <span th:text="下单时间${source.getSource_order_time()}"/>
+                <a th:href="@{(source_order_id=${source.getSource_order_id()})}">详细信息</a>
+            </td>
+        </tr>
+    </table>
+</div>
+<form action="#" th:action="@{/AAddSource}" method="post">
+    <input type="text" th:name="source_order_id">
+    <input type="text" th:name="source_order_total_sum">
+    <input type="text" th:name="source_order_place">
+    <input type="submit" value="添加货源订单">
+</form>
+<form action="#" th:action="@{/AAddSourceInformation}" method="post">
+    <input type="text" th:name="source_order_id">
+    <input type="text" th:name="source_order_goods_id">
+    <input type="text" th:name="source_order_goods_total_sum">
+    <input type="text" th:name="source_order_goods_unitprice">
+    <input type="text" th:name="source_order_goods_number">
+    <input type="submit" value="添加货源详细订单">
+</form>
+</body>
+</html>

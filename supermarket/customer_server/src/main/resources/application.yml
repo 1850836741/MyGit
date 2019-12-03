@@ -1,0 +1,50 @@
+server:
+  port: 8090
+
+
+spring:
+  application:
+    name: customer_server
+  zipkin:
+    base-url: http://localhost:9411
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/supermarket?serverTimezone=GMT%2B8
+    username: root
+    password: 13320006586HCY6
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+    timeout: 300
+
+
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+          zk-nodes: localhost:2181
+          auto-create-topics: true
+      bindings:
+        output:
+          destination: orgChangeTopic
+          content-type: application/json
+
+mybatis:
+  type-aliases-package: com.example.customer_server.mapper
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8080/eureka/

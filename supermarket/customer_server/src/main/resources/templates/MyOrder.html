@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>我的订单</title>
+</head>
+<body>
+<a th:href="@{/toIndex}">返回主页</a>
+<div th:if="${orders!=null}">
+    <table>
+        <tr th:each="order:${orders}">
+            <td th:text="${order.getOrder_id()}"></td>
+            <td th:text="${order.getOrder_total_sum()}"></td>
+            <td th:text="${order.getOrder_time()}"></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

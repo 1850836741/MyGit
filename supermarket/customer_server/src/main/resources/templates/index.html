@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>商城界面</title>
+</head>
+<body>
+<h1 th:if="${customer!=null}">
+    <p th:text="${customer.getCustomer_name()}"/>
+</h1>
+<h1 th:if="${customer==null}">
+    <a th:href="@{/login}">登陆</a>
+</h1>
+<a th:href="@{/register}">注册</a>
+
+<div th:if="${goodsMap!=null}">
+    <table>
+        <tr th:each="goods:${goodsMap.keySet()}">
+            <td>
+                <a th:text="${goodsMap.get(goods).getGoods_name()}"
+                   th:href="@{/goodsInformation(goods_id=${goodsMap.get(goods).getGoods_id()})}">商品详情</a>
+            </td>
+            <td th:text="${goodsMap.get(goods).getGoods_price()}"></td>
+            <td>
+                <form action="#" th:action="@{/buy}">
+                    <input type="text" name="number">
+                    <input type="hidden" th:value="${goodsMap.get(goods).getGoods_id()}" th:name="goods_id">
+                    <input type="submit" value="购买">
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+<a th:href="@{/toShopCart}">购物车</a>
+<a th:href="@{/toMyOrder}">我的订单</a>
+<form action="#" th:action="@{/search}" method="post">
+    <input type="text" th:name="goods_name">
+    <input type="submit" value="搜索">
+</form>
+<a th:href="@{/toAdministration}">后台管理</a>
+</body>
+</html>

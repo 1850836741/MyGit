@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>财务管理</title>
+</head>
+<body>
+<a th:href="@{/toIndex}">返回主页</a>
+<form action="#" th:action="@{/AGetSourceByTime}" method="post">
+    <input type="text" th:name="quarterly_time">
+    <input type="submit" value="搜索指定季度报表">
+</form>
+
+</body>
+</html>
