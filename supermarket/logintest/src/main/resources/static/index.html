@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="tokenJs.js"></script>
+    <script>
+        window.onload = function (ev) {
+            var tokens = decodeURIComponent(document.cookie);
+            var token = tokens.split(";");
+            for (var i =0;i<token.length;i++){
+                var cookieName = token[i].substring(0,token[i].indexOf("=")).trim();
+                if (cookieName == "access_token"){
+                    document.getElementById("judge").innerHTML = token[i].substring(token[i].indexOf("=")+1).trim();
+                    var request = new XMLHttpRequest();
+                    request.open("GET","http://localhost:8081/oauth2/oauth/check_token?token="
+                        +token[i].substring(token[i].indexOf("=")+1).trim(),true);
+                    request.send();
+                    request.onreadystatechange = function (ev1) {
+                        if (request.readyState === 4) {
+                            if (request.status === 200) {
+                                var response = request.responseText;
+                                document.getElementById("judge").innerHTML = response;
+                            }
+                        }
+                    }
+
+                }
+            }
+            document.getElementById("MyDiv").innerHTML = "QWQ";
+        }
+    </script>
+</head>
+<body>
+<h1>Hello</h1>
+<div id="judge">
+    我的
+</div>
+<button type="button" onclick="isTrue()">获取code</button>
+<div id="MyDiv">
+我的Token
+</div>
+</body>
+</html>

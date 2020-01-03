@@ -1,0 +1,38 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: zuul-server
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8080/eureka/
+
+zuul:
+  host:
+    connect-timeout-millis: 60000
+    socket-timeout-millis: 60000
+  routes:
+    oauth:
+      path: /oauth2/**
+      serviceId: oauth2-server
+      sensitiveHeaders: "*"
+    login:
+      path: /login-server/**
+      serviceId: login-server
+      sensitiveHeaders: "*"
+    customer:
+      path: /customer-server/**
+      serviceId: customer-server
+      sensitiveHeaders: "*"
+    business:
+      path: /business-server/**
+      serviceId: business-server
+      sensitiveHeaders: "*"
+  add-host-header: true

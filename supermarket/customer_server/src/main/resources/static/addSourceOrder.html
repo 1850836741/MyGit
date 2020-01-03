@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <script type="text/javascript" src="js/source.js"></script>
+    <script>
+        var sourceOrders = [];
+    </script>
+</head>
+<body style="background-image: url(images/背景.png); background-size: 100%;">
+<a href="index.html" style="color: white">返回主页</a>
+<button style="height: 60px;width: 60px;border-radius: 30px;
+    margin-left: 90%;margin-top: -70px;background: dodgerblue;color: white" id="show">添加</button>
+<div style="font-size: 70px;color: white;margin-top: 5%;margin-left: 35%">
+    添加货源订单
+</div>
+<div style="width: 100%;height: auto;padding-left: 30px;background-color: rgba(255,255,255,0.3);">
+    <table style="margin-top: 30px; text-align: center" id="goodsTable">
+        <tr>
+            <td class="myCss" style="width: 180px">商品名</td>
+            <td class="myCss" style="width: 180px">商品数量</td>
+            <td class="myCss" style="width: 180px">商品原价</td>
+            <td class="myCss" style="width: 180px">商品售价</td>
+            <td class="myCss" style="width: 180px">商品生产日期</td>
+            <td class="myCss" style="width: 180px">商品保质期</td>
+            <td class="myCss" style="width: 180px">总计</td>
+            <td class="myCss" style="width: 180px">删除</td>
+        </tr>
+    </table>
+    <button style="width: 120px;height: 30px;margin-top: 10px;background: #3889D4;border-radius: 8px;color: white" onclick="addSource()">提交</button>
+</div>
+<div id="outer">
+    <div tabindex="-1" id="model">
+        <input type="text" id="goods_name" style="width: 350px;height: 40px;margin-top: 10%;border-radius: 8px" placeholder="商品名字">
+        <input type="text"  id="goods_number" style="width: 350px;height: 40px;margin-top: 2%;border-radius: 8px" placeholder="商品数量"/>
+        <input type="text"  id="goods_original_price" style="width: 350px;height: 40px;margin-top: 2%;border-radius: 8px" placeholder="商品原价"/>
+        <input type="text"  id="goods_price" style="width: 350px;height: 40px;margin-top: 2%;border-radius: 8px" placeholder="商品售价"/>
+        <input type="text"  id="goods_manufacture_data" style="width: 350px;height: 40px;margin-top: 2%;border-radius: 8px" placeholder="商品生产日期"/>
+        <input type="text"  id="goods_quality_time" style="width: 350px;height: 40px;margin-top: 2%;border-radius: 8px" placeholder="商品保质期"/>
+        <p></p>
+        <button id="Determine" style="width: 120px;height: 30px;margin-top: 10px;background: #3889D4;border-radius: 8px;color: white">确认</button>
+        <button id="Cancel" style="width: 120px;height: 30px;margin-top: 10px;background: #3889D4;border-radius: 8px;color: white">取消</button>
+    </div>
+</div>
+<script>
+    document.getElementById("Cancel").onclick=function(){
+        document.getElementById("outer").style.display="none"
+    }
+
+    document.getElementById("Determine").onclick=function(){
+        var array = [];
+        var obj1 = {};
+        obj1['id'] = "goods_name";
+        obj1['text'] = document.getElementById("goods_name").value;
+        array.push(obj1);
+
+        var obj2 = {};
+        obj2['id'] = "goods_number";
+        obj2['text'] = document.getElementById("goods_number").value;
+        array.push(obj2);
+
+        var obj3 = {};
+        obj3['id'] = "goods_original_price";
+        obj3['text'] = document.getElementById("goods_original_price").value;
+        array.push(obj3);
+
+        var obj4 = {};
+        obj4['id'] = "goods_price";
+        obj4['text'] = document.getElementById("goods_price").value;
+        array.push(obj4);
+
+        var obj5 = {};
+        obj5['id'] = "goods_manufacture_data";
+        obj5['text'] = document.getElementById("goods_manufacture_data").value;
+        array.push(obj5);
+
+        var obj6 = {};
+        obj6['id'] = "goods_quality_time";
+        obj6['text'] = document.getElementById("goods_quality_time").value;
+        array.push(obj6);
+        sourceOrders.push(array);
+        document.getElementById("outer").style.display="none"
+        var goodsTable = document.getElementById("goodsTable");
+        for (var j = 1;j<goodsTable.rows.length;j++){
+            goodsTable.deleteRow(j);
+            goodsTable.rows.length = 1;
+        }
+        for (var i = 0;i<sourceOrders.length;i++){
+            var List = sourceOrders[i];
+            var NewRow = goodsTable.insertRow();
+            var NewCell2 = NewRow.insertCell();
+            NewCell2.innerHTML = List[0].text;
+            NewCell2.className = "secondCss";
+
+            var NewCell3 = NewRow.insertCell();
+            NewCell3.innerHTML = List[1].text;
+            NewCell3.className = "secondCss";
+
+            var NewCell4 = NewRow.insertCell();
+            NewCell4.innerHTML = List[2].text;
+            NewCell4.className = "secondCss";
+
+            var NewCell5 = NewRow.insertCell();
+            NewCell5.innerHTML = List[3].text;
+            NewCell5.className = "secondCss";
+
+            var NewCell6 = NewRow.insertCell();
+            NewCell6.innerHTML = List[4].text;
+            NewCell6.className = "secondCss";
+
+            var NewCell7 = NewRow.insertCell();
+            NewCell7.innerHTML = List[5].text;
+            NewCell7.className = "secondCss";
+
+            var Subtotal = List[1].text*List[2].text;
+            var NewCell8 = NewRow.insertCell();
+            NewCell8.innerHTML = ""+Subtotal+"元";
+            NewCell8.className = "secondCss";
+
+            var NewCell9 = NewRow.insertCell();
+            NewCell9.className = "secondCss";
+            var button = document.createElement("input");
+            button.type = "button";
+            button.value = "删除";
+            button.className = "sourceDelete";
+            button.onclick = function (ev) {
+                removeGoods(this);
+            }
+            NewCell9.appendChild(button);
+        }
+    }
+    document.getElementById("show").onclick=function(){
+        document.getElementById("outer").style.display="block"
+    }
+</script>
+</body>
+</html>

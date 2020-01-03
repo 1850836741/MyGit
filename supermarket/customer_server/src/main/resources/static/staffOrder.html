@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+
+    <script src="js/adapter.js" type="text/javascript"></script> <!--rem适配js-->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/source.js"></script>
+    <script type="text/javascript">
+        var cookieList = decodeURIComponent(document.cookie);
+        var tokens = cookieList.split(";");
+        var token = "";
+        for (var i =0;i<tokens.length;i++){
+            var cookieName = tokens[i].substring(0,tokens[i].indexOf("=")).trim();
+            if (cookieName == "access-token"){
+                token = tokens[i].substring(tokens[i].indexOf("=")+1).trim();
+            }
+        }
+
+        var request = new XMLHttpRequest();
+        request.open("GET","http://localhost:8081/business-server/getStaffOrderWithTime",true);
+        request.withCredentials = true;
+        request.setRequestHeader("Content-Type","application/json");
+        if (token!=""){
+            request.setRequestHeader("Authorization","Bearer "+token);
+        }
+        request.send();
+        request.onreadystatechange = function (ev1) {
+            if (request.readyState === 4) {
+                if (request.status === 200) {
+                    var array = JSON.parse(request.responseText);
+                    var goodsTable = document.getElementById("goodsTable");
+                    for (var i = 0; i< array.length; i++){
+                        var NewRow = goodsTable.insertRow();
+                        var NewCell1 = NewRow.insertCell();
+                        NewCell1.innerHTML = array[i].staff_order_id;
+                        NewCell1.className = "secondCss";
+
+                        var NewCell2 = NewRow.insertCell();
+                        NewCell2.innerHTML = array[i].staff_id;
+                        NewCell2.className = "secondCss";
+
+                        var NewCell3 = NewRow.insertCell();
+                        NewCell3.innerHTML = array[i].staff_salary;
+                        NewCell3.className = "secondCss";
+
+                        var NewCell4 = NewRow.insertCell();
+                        NewCell4.innerHTML = array[i].staff_salary_time;
+                        NewCell4.className = "secondCss";
+
+
+                        var NewCell6 = NewRow.insertCell();
+                        NewCell6.className = "secondCss";
+                        var b = document.createElement('a');
+                        b.innerText = "删除";
+                        b.setAttribute('href',"http://localhost:8081/customer-server/deleteStaffOrder.html?staff_order_id="+array[i].staff_order_id);
+                        NewCell6.appendChild(b);
+                    }
+                }
+            }
+        }
+    </script>
+    <title>主页</title>
+</head>
+
+<body style="background-image: url(images/背景.png); background-size: 100%;">
+<a href="index.html" style="color: white">返回主页</a>
+<div class="div_menu fontsize div_color1"><b>超市管理系统v1.0</b></div>
+<div class="div_menu div_color1" id="vue-app">
+    <h1 th:if="${customer!=null}">
+        <p th:text="${customer.getCustomer_name()}"/>
+    </h1>
+    <h1 th:if="${customer==null}">
+        <a href="register.html" style="color: cornsilk;">登陆</a>
+        <a href="register.html" style="color: cornsilk;">注册</a>
+    </h1>
+    <button style="height: 60px;width: 60px;border-radius: 30px;
+    margin-left: 90%;margin-top: -70px;background: dodgerblue;color: white" onclick="toAddStaffOrder()">添加</button>
+</div>
+
+<!--菜单-->
+<div class="div_float">
+    <div id="menu">
+        <!--隐藏菜单-->
+        <div id="ensconce">
+            <h2>
+                <img src="images/show.png" alt="">功能列表
+            </h2>
+        </div>
+
+        <!--显示菜单-->
+        <div id="open">
+            <div class="navH">
+                <span><img class="obscure" src="images/obscure.png" alt=""></span>功能列表
+            </div>
+            <div class="navBox">
+                <ul>
+                    <li>
+                        <h2 class="obtain">仓库管理<i></i></h2>
+                        <div class="secondary">
+                            <a href="source.html"><h3>商品管理</h3></a>
+                            <a href="sourceOrder.html"><h3>货源订单管理</h3></a>
+                            <a href="expireGoods.html"><h3>过期预警</h3></a>
+                        </div>
+                    </li>
+                    <li>
+                        <h2 class="obtain">财务管理<i></i></h2>
+                        <div class="secondary">
+                            <a href="order.html"><h3>订单管理</h3></a>
+                            <a href="staffOrder.html"><h3>员工工资管理</h3></a>
+                            <a href=""><h3>季度财务管理</h3></a>
+                        </div>
+                    </li>
+                    <li>
+                        <h2 class="obtain">人事管理<i></i></h2>
+                        <div class="secondary">
+                            <a href="staff.html"><h3>员工管理</h3></a>
+                            <a href="customer.html"><h3>顾客管理</h3></a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="js/menu.js"></script> <!--控制js-->
+</div>
+<div style="width: 100%;height: auto;padding-left: 30px;background-color: rgba(255,255,255,0.3);">
+    <table style="margin-top: 30px; text-align: center" id="goodsTable">
+        <tr>
+            <td class="myCss" width="300px">职员工资订单id</td>
+            <td class="myCss" width="300px">职员id</td>
+            <td class="myCss" width="300px">职员薪水</td>
+            <td class="myCss" width="300px">薪水发放时间</td>
+            <td class="myCss" width="100px">删除</td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>

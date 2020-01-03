@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <script type="text/javascript" src="js/order.js"></script>
+    <script>
+        var sourceOrders = [];
+    </script>
+</head>
+<body style="background-image: url(images/背景.png); background-size: 100%;">
+<a href="index.html" style="color: white">返回主页</a>
+<button style="height: 60px;width: 60px;border-radius: 30px;
+    margin-left: 90%;margin-top: -70px;background: dodgerblue;color: white" id="show">添加</button>
+<div style="font-size: 70px;color: white;margin-top: 5%;margin-left: 35%">
+    添加订单
+</div>
+<div style="width: 100%;height: auto;padding-left: 30px;background-color: rgba(255,255,255,0.3);">
+    <table style="margin-top: 30px;margin-left: 13% ;text-align: center" id="goodsTable">
+        <tr>
+            <td class="myCss" style="width: 180px">商品id</td>
+            <td class="myCss" style="width: 180px">商品名</td>
+            <td class="myCss" style="width: 180px">商品数量</td>
+            <td class="myCss" style="width: 180px">购买者</td>
+            <td class="myCss" style="width: 180px">总计</td>
+            <td class="myCss" style="width: 180px">删除</td>
+        </tr>
+    </table>
+    <button style="width: 120px;height: 30px;margin-top: 10px;background: #3889D4;border-radius: 8px;color: white" onclick="addOrder()">提交</button>
+</div>
+<div id="outer">
+    <div tabindex="-1" id="model">
+        <input type="text" id="goods_id" style="width: 350px;height: 40px;margin-top: 10%;border-radius: 8px" placeholder="商品id">
+        <input type="text"  id="goods_name" style="width: 350px;height: 40px;margin-top: 2%;border-radius: 8px" placeholder="商品名字"/>
+        <input type="text"  id="goods_number" style="width: 350px;height: 40px;margin-top: 2%;border-radius: 8px" placeholder="商品数量"/>
+        <input type="text"  id="goods_purchaser" style="width: 350px;height: 40px;margin-top: 2%;border-radius: 8px" placeholder="购买者"/>
+        <p></p>
+        <button id="Determine" style="width: 120px;height: 30px;margin-top: 10px;background: #3889D4;border-radius: 8px;color: white">确认</button>
+        <button id="Cancel" style="width: 120px;height: 30px;margin-top: 10px;background: #3889D4;border-radius: 8px;color: white">取消</button>
+    </div>
+</div>
+<script>
+    document.getElementById("Cancel").onclick=function(){
+        document.getElementById("outer").style.display="none"
+    }
+
+    document.getElementById("Determine").onclick=function(){
+        var array = [];
+
+        var obj0 = {};
+        obj0['id'] = "goods_id";
+        obj0['text'] = document.getElementById("goods_id").value;
+        array.push(obj0);
+
+        var obj1 = {};
+        obj1['id'] = "goods_name";
+        obj1['text'] = document.getElementById("goods_name").value;
+        array.push(obj1);
+
+        var obj2 = {};
+        obj2['id'] = "goods_number";
+        obj2['text'] = document.getElementById("goods_number").value;
+        array.push(obj2);
+
+        var obj3 = {};
+        obj3['id'] = "goods_purchaser";
+        obj3['text'] = document.getElementById("goods_purchaser").value;
+        array.push(obj3);
+        var goods_price = 0;
+
+        var cookieList = decodeURIComponent(document.cookie);
+        var tokens = cookieList.split(";");
+        var token = "";
+        for (var i =0;i<tokens.length;i++){
+            var cookieName = tokens[i].substring(0,tokens[i].indexOf("=")).trim();
+            if (cookieName == "access-token"){
+                token = tokens[i].substring(tokens[i].indexOf("=")+1).trim();
+            }
+        }
+
+        var request = new XMLHttpRequest();
+        request.open("GET","http://localhost:8081/business-server/getGoodsPriceById?goods_id="+document.getElementById("goods_id").value,true);
+        request.withCredentials = true;
+        request.setRequestHeader("Content-Type","application/json");
+        if (token!=""){
+            request.setRequestHeader("Authorization","Bearer "+token);
+        }
+        request.send();
+        request.onreadystatechange = function (ev1) {
+            if (request.readyState === 4) {
+                if (request.status === 200) {
+                    goods_price = request.responseText;
+                    var obj4 = {};
+                    obj4['id'] = "goods_price";
+                    obj4['text'] = goods_price*document.getElementById("goods_number").value;
+                    array.push(obj4);
+
+
+                    sourceOrders.push(array);
+                    document.getElementById("outer").style.display="none"
+
+                    var goodsTable = document.getElementById("goodsTable");
+                    for (var j = 1;j<goodsTable.rows.length;j++){
+                        goodsTable.deleteRow(j);
+                        goodsTable.rows.length = 1;
+                    }
+
+                    for (var i = 0;i<sourceOrders.length;i++){
+                        var List = sourceOrders[i];
+                        var NewRow = goodsTable.insertRow();
+                        var NewCell2 = NewRow.insertCell();
+                        NewCell2.innerHTML = List[0].text;
+                        NewCell2.className = "secondCss";
+
+                        var NewCell3 = NewRow.insertCell();
+                        NewCell3.innerHTML = List[1].text;
+                        NewCell3.className = "secondCss";
+
+                        var NewCell4 = NewRow.insertCell();
+                        NewCell4.innerHTML = List[2].text;
+                        NewCell4.className = "secondCss";
+
+                        var NewCell5 = NewRow.insertCell();
+                        NewCell5.innerHTML = List[3].text;
+                        NewCell5.className = "secondCss";
+
+                        var NewCell6 = NewRow.insertCell();
+                        NewCell6.innerHTML = List[4].text+"元";
+                        NewCell6.className = "secondCss";
+
+                        var NewCell9 = NewRow.insertCell();
+                        NewCell9.className = "secondCss";
+                        var button = document.createElement("input");
+                        button.type = "button";
+                        button.value = "删除";
+                        button.className = "sourceDelete";
+                        button.onclick = function (ev) {
+                            removeGoods(this);
+                        }
+                        NewCell9.appendChild(button);
+                    }
+                }
+            }
+        }
+    }
+    document.getElementById("show").onclick=function(){
+        document.getElementById("outer").style.display="block"
+    }
+</script>
+</body>
+</html>

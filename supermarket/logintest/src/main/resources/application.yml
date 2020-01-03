@@ -1,0 +1,13 @@
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8080/eureka/
+spring:
+  application:
+    name: login-server
+server:
+  port: 8083

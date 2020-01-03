@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="js/source.js"></script>
+    <script>
+        function addStaff() {
+            var cookieList = decodeURIComponent(document.cookie);
+            var tokens = cookieList.split(";");
+            var token = "";
+            for (var i =0;i<tokens.length;i++){
+                var cookieName = tokens[i].substring(0,tokens[i].indexOf("=")).trim();
+                if (cookieName == "access-token"){
+                    token = tokens[i].substring(tokens[i].indexOf("=")+1).trim();
+                }
+            }
+
+            var request = new XMLHttpRequest();
+            request.open("POST", "http://localhost:8081/business-server/addStaff", true);
+            request.withCredentials = true;
+            var obj = {"staff_name":document.getElementById("staff_name").value,"staff_idcard":document.getElementById("staff_idcard").value,
+                "staff_sex":document.getElementById("staff_sex").value,"staff_native":document.getElementById("staff_native").value,"staff_nation":document.getElementById("staff_nation").value,
+                "staff_position":document.getElementById("staff_position").value}
+            request.setRequestHeader("Content-Type","application/json");
+            if (token!=""){
+                request.setRequestHeader("Authorization","Bearer "+token);
+            }
+            request.send(JSON.stringify(obj));
+            request.onreadystatechange = function (ev1) {
+                if (request.readyState === 4) {
+                    if (request.status === 200) {
+                        alert("添加成功");
+                        window.location.href=document.referrer;
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body style="background-image: url(images/背景.png); background-size: 100%;">
+<a href="index.html" style="color: white">返回主页</a>
+<div style="font-size: 70px;color: white;margin-top: 5%;margin-left: 35%">
+    添加职员
+</div>
+<div style="width: 180px;height: 150px;margin-left: 35%;margin-top: 3%">
+    <input type="text"  id="staff_name" style="width: 350px;height: 40px;border-radius: 8px" placeholder="职员名字"/>
+    <input type="text"  id="staff_idcard" style="width: 350px;height: 40px;margin-top: 15%;border-radius: 8px" placeholder="职员身份证"/>
+    <input type="text"  id="staff_sex" style="width: 350px;height: 40px;margin-top: 15%;border-radius: 8px" placeholder="职员性别"/>
+    <input type="text"  id="staff_native" style="width: 350px;height: 40px;margin-top: 15%;border-radius: 8px" placeholder="职员居住地"/>
+    <input type="text"  id="staff_nation" style="width: 350px;height: 40px;margin-top: 15%;border-radius: 8px" placeholder="职员民族"/>
+    <input type="text"  id="staff_position" style="width: 350px;height: 40px;margin-top: 15%;border-radius: 8px" placeholder="职员职位"/>
+    <button style="width: 120px;height: 30px;margin-top: 10px;background: #3889D4;border-radius: 8px;color: white" onclick="addStaff()">添加</button>
+</div>
+</body>
+</html>

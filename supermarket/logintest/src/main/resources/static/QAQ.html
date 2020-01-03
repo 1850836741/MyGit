@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="tokenJs.js"></script>
+    <script>
+        window.onload = function (ev) {
+            var url = location.search;
+            var code = "";
+            if (url.indexOf("?") != -1) {
+                var str = url.substring(1);
+                var strs = str.split("&");
+                for (var i = 0; i < strs.length; i++) {
+                    if (strs[i].substring(0, strs[i].indexOf("=")).trim() == "code") {
+                        code = strs[i].substring(strs[i].indexOf("=") + 1);
+                    }
+                }
+                var request = new XMLHttpRequest();
+                var formData = new FormData();
+                formData.append("grant_type", "authorization_code");
+                formData.append("code", code);
+                request.open("POST", "http://client:secret@localhost:8081/oauth2/oauth/token", true);
+                request.withCredentials = true;
+                request.send(formData);
+                request.onreadystatechange = function (ev1) {
+                    if (request.readyState === 4) {
+                        if (request.status === 200) {
+                            var response = request.responseText;
+                            var obj = JSON.parse(response);
+                            document.cookie = "access_token=" + obj.access_token + ";expires=Sun, 08 Dec 2019 23:00:00 UTC"
+                            document.cookie = "refresh_token=" + obj.refresh_token + ";expires=Sun, 08 Dec 2019 23:00:00 UTC"
+                            window.close();
+                        }else {
+                            document.getElementById("e").innerHTML = "QQ";
+                        }
+                    } else {
+                        document.getElementById("e").innerHTML = "QAQ";
+                    }
+                }
+            }
+        }
+        window.onunload = function (ev) {
+            window.opener.location = window.opener.location;
+        }
+    </script>
+</head>
+<body>
+<div id="e">
+</div>
+</body>
+</html>

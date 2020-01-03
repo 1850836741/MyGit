@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function addStaff() {
+            var request = new XMLHttpRequest();
+            var formDta = new FormData();
+            request.open("POST","http://localhost:8081/customer-server/addCustomer",true);
+            request.withCredentials = true;
+            formDta.append("customer_telephone_number",document.getElementById("TelephoneNumber").value);
+            formDta.append("customer_name",document.getElementById("Name").value);
+            formDta.append("vip_rank",document.getElementById("rank").value);
+            request.send(formDta);
+            request.onreadystatechange = function (ev1) {
+                if (request.readyState === 4) {
+                    if (request.status === 200) {
+                        alert("添加成功");
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body style="background-image: url(images/背景.png); background-size: 100%;">
+<a href="index.html" style="color: white">返回主页</a>
+<div style="font-size: 70px;color: white;margin-top: 10%;margin-left: 35%">
+    欢迎注册
+</div>
+<div style="width: 180px;height: 150px;margin-left: 35%;margin-top: 3%">
+    <input type="text" name="TelephoneNumber" id="TelephoneNumber" style="width: 350px;height: 40px;border-radius: 8px" placeholder="顾客手机号"/>
+    <input type="text" name="Name" id="Name" style="width: 350px;height: 40px;margin-top: 15%;border-radius: 8px" placeholder="顾客名字"/>
+    <input type="text" name="rank" id="rank" style="width: 350px;height: 40px;margin-top: 15%;border-radius: 8px" placeholder="顾客vip等级"/>
+    <button style="width: 120px;height: 30px;margin-top: 10px;background: #3889D4;border-radius: 8px;color: white" onclick="addStaff()">注册</button>
+</div>
+</body>
+</html>

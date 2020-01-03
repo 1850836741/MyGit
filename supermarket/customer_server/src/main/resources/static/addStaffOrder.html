@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="js/source.js"></script>
+    <script>
+        function addStaffOrder() {
+            var cookieList = decodeURIComponent(document.cookie);
+            var tokens = cookieList.split(";");
+            var token = "";
+            for (var i =0;i<tokens.length;i++){
+                var cookieName = tokens[i].substring(0,tokens[i].indexOf("=")).trim();
+                if (cookieName == "access-token"){
+                    token = tokens[i].substring(tokens[i].indexOf("=")+1).trim();
+                }
+            }
+
+            var request = new XMLHttpRequest();
+            var formDta = new FormData();
+            formDta.append("staff_id",document.getElementById("staff_id").value);
+            formDta.append("staff_salary",document.getElementById("staff_salary").value);
+            request.open("POST", "http://localhost:8081/business-server/addStaffOrder", true);
+            request.withCredentials = true;
+            var obj = {"staff_id":document.getElementById("staff_id").value,"staff_salary":document.getElementById("staff_salary").value};
+            request.setRequestHeader("Content-Type","application/json");
+            if (token!=""){
+                request.setRequestHeader("Authorization","Bearer "+token);
+            }
+            request.send(JSON.stringify(obj));
+            request.onreadystatechange = function (ev1) {
+                if (request.readyState === 4) {
+                    if (request.status === 200) {
+                        alert("添加成功");
+                        window.location.href=document.referrer;
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body style="background-image: url(images/背景.png); background-size: 100%;">
+<a href="index.html" style="color: white">返回主页</a>
+<div style="font-size: 70px;color: white;margin-top: 5%;margin-left: 35%">
+    添加职员
+</div>
+<div style="width: 180px;height: 150px;margin-left: 35%;margin-top: 3%">
+    <input type="text"  id="staff_id" style="width: 350px;height: 40px;border-radius: 8px" placeholder="职员id"/>
+    <input type="text"  id="staff_salary" style="width: 350px;height: 40px;margin-top: 15%;border-radius: 8px" placeholder="职员工资"/>
+    <button style="width: 120px;height: 30px;margin-top: 10px;background: #3889D4;border-radius: 8px;color: white" onclick="addStaffOrder()">添加</button>
+</div>
+</body>
+</html>

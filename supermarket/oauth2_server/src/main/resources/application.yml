@@ -1,0 +1,23 @@
+server:
+  port: 8082
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8080/eureka/
+spring:
+  application:
+    name: oauth2-server
+  zipkin:
+    base-url: http://localhost:9411
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/supermarket?serverTimezone=GMT%2B8
+    username: root
+    password: 13320006586HCY6
+mybatis:
+  type-aliases-package: com.example.oauth2_server.mapper

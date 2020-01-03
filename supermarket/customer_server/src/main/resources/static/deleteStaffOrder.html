@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        window.onload = function (ev) {
+            var cookieList = decodeURIComponent(document.cookie);
+            var tokens = cookieList.split(";");
+            var token = "";
+            for (var i =0;i<tokens.length;i++){
+                var cookieName = tokens[i].substring(0,tokens[i].indexOf("=")).trim();
+                if (cookieName == "access-token"){
+                    token = tokens[i].substring(tokens[i].indexOf("=")+1).trim();
+                }
+            }
+
+            var url = location.search;
+            var staff_order_id= "";
+            if (url.indexOf("?") != -1) {
+                var str = url.substring(1);
+                var strs = str.split("&");
+                for (var i = 0; i < strs.length; i++) {
+                    if (strs[i].substring(0, strs[i].indexOf("=")).trim() == "staff_order_id") {
+                        staff_order_id = strs[i].substring(strs[i].indexOf("=") + 1);
+                    }
+                }
+            }
+
+            var request = new XMLHttpRequest();
+            request.open("GET","http://localhost:8081/business-server/deleteStaffOrder?staff_order_id="+staff_order_id,true);
+            request.withCredentials = true;
+            request.setRequestHeader("Content-Type","application/json");
+            if (token!=""){
+                request.setRequestHeader("Authorization","Bearer "+token);
+            }
+            request.send();
+            request.onreadystatechange = function (ev1) {
+                if (request.readyState === 4) {
+                    if (request.status === 200) {
+                        window.location.href=document.referrer;
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+
+</body>
+</html>

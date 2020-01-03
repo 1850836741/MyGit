@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <script>
+        var cookieList = decodeURIComponent(document.cookie);
+        var tokens = cookieList.split(";");
+        var token = "";
+        for (var i =0;i<tokens.length;i++){
+            var cookieName = tokens[i].substring(0,tokens[i].indexOf("=")).trim();
+            if (cookieName == "access-token"){
+                token = tokens[i].substring(tokens[i].indexOf("=")+1).trim();
+            }
+        }
+
+        var url = location.search;
+        var order_id= "";
+        if (url.indexOf("?") != -1) {
+            var str = url.substring(1);
+            var strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                if (strs[i].substring(0, strs[i].indexOf("=")).trim() == "order_id") {
+                    order_id = strs[i].substring(strs[i].indexOf("=") + 1);
+                }
+            }
+        }
+        var request = new XMLHttpRequest();
+        request.open("GET","http://localhost:8081/business-server/getOrderDetailedById?order_id="+order_id,true);
+        request.withCredentials = true;
+        request.setRequestHeader("Content-Type","application/json");
+        if (token!=""){
+            request.setRequestHeader("Authorization","Bearer "+token);
+        }
+        request.send();
+        request.onreadystatechange = function (ev1) {
+            if (request.readyState === 4) {
+                if (request.status === 200) {
+                    var array = JSON.parse(request.responseText);
+                    var goodsTable = document.getElementById("goodsTable");
+                    for (var i = 0; i < array.length; i++) {
+                        var NewRow = goodsTable.insertRow();
+                        var NewCell1 = NewRow.insertCell();
+                        NewCell1.innerHTML = array[i].order_id;
+                        NewCell1.className = "secondCss";
+
+                        var NewCell2 = NewRow.insertCell();
+                        NewCell2.innerHTML = array[i].order_goods_id;
+                        NewCell2.className = "secondCss";
+
+                        var NewCell3 = NewRow.insertCell();
+                        NewCell3.innerHTML = array[i].order_goods_name;
+                        NewCell3.className = "secondCss";
+
+                        var NewCell4 = NewRow.insertCell();
+                        NewCell4.innerHTML = array[i].order_subtotal;
+                        NewCell4.className = "secondCss";
+
+                        var NewCell5 = NewRow.insertCell();
+                        NewCell5.innerHTML = array[i].order_time;
+                        NewCell5.className = "secondCss";
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body style="background-image: url(images/背景.png); background-size: 100%;">
+<a href="index.html" style="color: white">返回主页</a>
+<div style="width: 100%;height: auto;padding-left: 30px;background-color: rgba(255,255,255,0.3);">
+    <table style="margin-left: 220px;margin-top: 30px; text-align: center" id="goodsTable">
+        <tr>
+            <td class="myCss" width="210px">订单编号</td>
+            <td class="myCss" width="210px">商品id</td>
+            <td class="myCss" width="210px">商品名字</td>
+            <td class="myCss" width="190px">小计</td>
+            <td class="myCss" width="210px">订单时间</td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

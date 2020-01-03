@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        #model{
+            width:700px;
+            height:500px;
+            margin-left:-200px;
+            margin-top:0px;
+            background-color: blue;
+            position:fixed;
+            top:20%;
+            left:40%;
+            z-index: 200;
+        }
+        #outer{
+            position:fixed;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            z-index:100;
+            padding-top:0%;
+            text-align:center;
+            background: rgba(255, 255, 255, 0.5) no-repeat center center;
+            filter:alpha(opacity=50);
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<button id="show">弹出模态框</button>
+<div id="outer">
+    <div tabindex="-1" id="model">
+        <input type="text" id="goods_name" style="width: 350px;height: 40px;margin-top: 6%;border-radius: 8px" placeholder="商品名字">
+        <input type="text"  id="goods_number" style="width: 350px;height: 40px;margin-top: 2%;border-radius: 8px" placeholder="商品数量"/>
+        <input type="text"  id="goods_original_price" style="width: 350px;height: 40px;margin-top: 2%;border-radius: 8px" placeholder="商品原价"/>
+        <input type="text"  id="goods_price" style="width: 350px;height: 40px;margin-top: 2%;border-radius: 8px" placeholder="商品售价"/>
+        <input type="text"  id="goods_manufacture_data" style="width: 350px;height: 40px;margin-top: 2%;border-radius: 8px" placeholder="商品生产日期"/>
+        <input type="text"  id="goods_quality_time" style="width: 350px;height: 40px;margin-top: 2%;border-radius: 8px" placeholder="商品保质期"/>
+        <p></p>
+        <button id="Determine" style="width: 120px;height: 30px;margin-top: 10px;background: #3889D4;border-radius: 8px;color: white">确认</button>
+        <button id="Cancel" style="width: 120px;height: 30px;margin-top: 10px;background: #3889D4;border-radius: 8px;color: white">取消</button>
+    </div>
+
+</div>
+<script>
+    document.getElementById("Cancel").onclick=function(){
+        document.getElementById("outer").style.display="none"
+    }
+    document.getElementById("show").onclick=function(){
+        document.getElementById("outer").style.display="block"
+    }
+</script>
+</body>
+</html>
