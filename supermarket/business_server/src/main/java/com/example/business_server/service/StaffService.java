@@ -1,6 +1,7 @@
 package com.example.business_server.service;
 
 import com.example.business_server.entity.Staff;
+<<<<<<< HEAD
 import com.example.business_server.entity.StaffOrder;
 import com.example.business_server.mapper.StaffMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,21 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+=======
+import com.example.business_server.mapper.StaffMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+>>>>>>> 1f928a1d30a9d70d31fe1f06a3e043248d2a6984
 public class StaffService {
 
     @Autowired(required = false)
     StaffMapper staffMapper;
 
+<<<<<<< HEAD
     @RequestMapping(value = "/getStaffById",method = RequestMethod.GET)
     public Staff getStaffById(String staff_order_id){
         return staffMapper.findStaffById(staff_order_id);
@@ -70,4 +81,48 @@ public class StaffService {
     public void deleteStaffOrder(String staff_order_id){
         staffMapper.deleteStaffOrder(staff_order_id);
     }
+=======
+    /**
+     * 查找一定数量的职员信息
+     * @param number
+     * @return
+     */
+    public List<Staff> findAnyStaff(long number){
+        return staffMapper.findAnyStaff(number);
+    }
+
+    /**
+     * 修改职位
+     * @param staff_id
+     * @param staff_position
+     */
+    public void updateStaffPosition(int staff_id,String staff_position){
+        staffMapper.setStaffHabitation(staff_id,staff_position);
+    }
+
+    /**
+     * 修改居住地
+     * @param staff_id
+     * @param staff_habitation
+     */
+    public void updateStaffHabitation(int staff_id,String staff_habitation){
+        staffMapper.setStaffHabitation(staff_id,staff_habitation);
+    }
+
+    /**
+     * 添加职员
+     * @param staff
+     */
+    public void addStaff(Staff staff){
+        staffMapper.addStaff(staff);
+    }
+
+    /**
+     * 删除职员
+     * @param staff_id
+     */
+    public void deleteStaff(int staff_id){
+        staffMapper.deleteStaff(staff_id);
+    }
+>>>>>>> 1f928a1d30a9d70d31fe1f06a3e043248d2a6984
 }

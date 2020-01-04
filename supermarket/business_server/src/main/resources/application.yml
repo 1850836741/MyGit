@@ -1,8 +1,15 @@
 server:
   port: 8091
+<<<<<<< HEAD
 spring:
   application:
     name: business-server
+=======
+
+spring:
+  application:
+    name: business_server
+>>>>>>> 1f928a1d30a9d70d31fe1f06a3e043248d2a6984
   zipkin:
     base-url: http://localhost:9411
   datasource:
@@ -21,8 +28,15 @@ spring:
         max-idle: 8
         min-idle: 0
     timeout: 300
+<<<<<<< HEAD
 mybatis:
   type-aliases-package: com.example.business_server.mapper
+=======
+
+
+mybatis:
+  type-aliases-package: com.example.customer_server.mapper
+>>>>>>> 1f928a1d30a9d70d31fe1f06a3e043248d2a6984
 
 eureka:
   instance:
@@ -32,6 +46,7 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8080/eureka/
+<<<<<<< HEAD
 
 security:
   oauth2:
@@ -42,3 +57,5 @@ security:
       user-authorization-uri: http://localhost:8082/oauth/authorize
     resource:
       token-info-uri: http://localhost:8082/oauth/check_token
+=======
+>>>>>>> 1f928a1d30a9d70d31fe1f06a3e043248d2a6984

@@ -2,7 +2,11 @@ server:
   port: 9411
 spring:
   application:
+<<<<<<< HEAD
     name: zipkin-server
+=======
+    name: zipkin_server
+>>>>>>> 1f928a1d30a9d70d31fe1f06a3e043248d2a6984
   main:
     allow-bean-definition-overriding: true
 eureka:
@@ -13,4 +17,9 @@ management:
   metrics:
     web:
       server:
+<<<<<<< HEAD
         auto-time-requests: false
+=======
+        auto-time-requests: false
+
+>>>>>>> 1f928a1d30a9d70d31fe1f06a3e043248d2a6984

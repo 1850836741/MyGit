@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE myfile ANY[
+        <!ELEMENT myfile (beans)>
+        <!ELEMENT beans (bean*)>
+        <!ELEMENT bean (constructor-arg*)>
+        <!ELEMENT constructor-arg (list*,set*)>
+        <!ELEMENT property (list*,set*)>
+        <!ELEMENT list (value+)>
+        <!ELEMENT set (value+)>
+        <!ELEMENT value (#PCDATA)>
+
+        <!ATTLIST bean
+                id CDATA #IMPLIED
+                class CDATA #REQUIRED
+                scope CDATA "SINGLE">
+        <!ATTLIST constructor-arg
+                ref CDATA #IMPLIED
+                value CDATA #IMPLIED>
+        <!ATTLIST property
+                name CDATA #IMPLIED
+                ref CDATA #IMPLIED
+                value CDATA #IMPLIED>
+        ]>

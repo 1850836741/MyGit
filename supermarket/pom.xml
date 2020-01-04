@@ -16,7 +16,11 @@
 
     <properties>
         <java.version>1.8</java.version>
+<<<<<<< HEAD
         <spring-cloud.version>Greenwich.SR4</spring-cloud.version>
+=======
+        <spring-cloud.version>Greenwich.SR3</spring-cloud.version>
+>>>>>>> 1f928a1d30a9d70d31fe1f06a3e043248d2a6984
     </properties>
 
     <dependencies>
@@ -26,7 +30,11 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
+<<<<<<< HEAD
             <artifactId>spring-cloud-starter</artifactId>
+=======
+            <artifactId>spring-cloud-config-server</artifactId>
+>>>>>>> 1f928a1d30a9d70d31fe1f06a3e043248d2a6984
         </dependency>
 
         <dependency>

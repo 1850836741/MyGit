@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>职员管理</title>
+</head>
+<body>
+<a th:href="@{/toIndex}">返回主页</a>
+<form action="#" th:action="@{/AGetSourceByTime}" method="post">
+    <input type="text" th:name="staff_id">
+    <input type="submit" value="搜索指定日期订单">
+</form>
+<div th:if="${staffs!=null}">
+    <table>
+    <tr th:each="staff:${staffs}">
+        <td>
+            <span th:text="货源订单号${staff.getStaff_id()}"/>
+            <span th:text="货源订单号${staff.getStaff_name()}"/>
+            <span th:text="货源订单号${staff.getStaff_position()}"/>
+            <span th:text="货源订单号${staff.getStaff_idcard()}"/>
+            <span th:text="货源订单号${staff.getStaff_sex()}"/>
+            <span th:text="货源订单号${staff.getStaff_native_place()}"/>
+            <span th:text="货源订单号${staff.getStaff_habitation()}"/>
+            <a th:href="@{/ADeleteStaff(staff_id=${staff.getStaff_id()})}">删除</a>
+        </td>
+    </tr>
+</table>
+</div>
+
+<form action="#" th:action="@{/AAddStaff}" method="post">
+    <input type="text" th:name="staff_id">
+    <input type="text" th:name="staff_position">
+    <input type="text" th:name="staff_name">
+    <input type="text" th:name="staff_age">
+    <input type="text" th:name="staff_sex">
+    <input type="text" th:name="staff_idcard">
+    <input type="text" th:name="staff_habitation">
+    <input type="text" th:name="staff_native_place">
+    <input type="submit" value="添加职工">
+</form>
+</body>
+</html>

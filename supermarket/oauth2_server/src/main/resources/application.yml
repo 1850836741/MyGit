@@ -1,4 +1,5 @@
 server:
+<<<<<<< HEAD
   port: 8082
 
 eureka:
@@ -21,3 +22,6 @@ spring:
     password: 13320006586HCY6
 mybatis:
   type-aliases-package: com.example.oauth2_server.mapper
+=======
+  port: 8082
+>>>>>>> 1f928a1d30a9d70d31fe1f06a3e043248d2a6984

@@ -1,9 +1,16 @@
 server:
   port: 8090
 
+<<<<<<< HEAD
 spring:
   application:
     name: customer-server
+=======
+
+spring:
+  application:
+    name: customer_server
+>>>>>>> 1f928a1d30a9d70d31fe1f06a3e043248d2a6984
   zipkin:
     base-url: http://localhost:9411
   datasource:
@@ -22,6 +29,23 @@ spring:
         max-idle: 8
         min-idle: 0
     timeout: 300
+<<<<<<< HEAD
+=======
+
+
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+          zk-nodes: localhost:2181
+          auto-create-topics: true
+      bindings:
+        output:
+          destination: orgChangeTopic
+          content-type: application/json
+
+>>>>>>> 1f928a1d30a9d70d31fe1f06a3e043248d2a6984
 mybatis:
   type-aliases-package: com.example.customer_server.mapper
 
@@ -32,4 +56,8 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
+<<<<<<< HEAD
       defaultZone: http://localhost:8080/eureka/
+=======
+      defaultZone: http://localhost:8080/eureka/
+>>>>>>> 1f928a1d30a9d70d31fe1f06a3e043248d2a6984

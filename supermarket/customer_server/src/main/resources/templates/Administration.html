@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a th:href="@{/toIndex}">返回主页</a>
+<a th:href="@{//AtoStaff}">职员管理</a>
+<a th:href="@{/finance.html}">财务管理</a>
+<a th:href="@{/source.html}">货源管理</a>
+<div th:if="${Orders!=null}">
+    <table>
+        <tr th:each="order:${Orders}">
+            <td>
+                <span th:text="订单号${order.getOrder_id()}"/>
+                <span th:text="购买者${order.getOrder_purchaser_account()}"/>
+                <span th:text="总计${order.getOrder_total_sum()}"/>
+                <span th:text="下单时间${order.getOrder_time()}"/>
+                <a th:href="@{(order_id=${order.getOrder_id()})}">详细信息</a>
+            </td>
+        </tr>
+    </table>
+</div>
+<form action="#" th:action="@{/aGetOrderByNumber}" method="post">
+    <input type="text" th:name="order_time">
+    <input type="submit" value="搜索指定日期订单">
+</form>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a th:href="@{/toIndex}">返回主页</a>
+<div th:if="${shopCart!=null}">
+    <h1>QAQ</h1>
+    <table>
+        <tr th:each="cart:${shopCart.keySet()}">
+            <td th:text="${cart.getGoods_name()}"/>
+            <td th:text="${cart.getGoods_number()}"/>
+            <td th:text="${shopCart.get(cart)}"/>
+            <td>
+                <a th:href="@{/deleteCartGoods(goods_id=${cart.getGoods_id()})}">删除</a>
+            </td>
+        </tr>
+    </table>
+</div>
+<form action="#" th:action="@{/buyCart}">
+    <input type="submit" value="全部购买">
+</form>
+
+</body>
+</html>
