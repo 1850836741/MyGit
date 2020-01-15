@@ -1,11 +1,13 @@
 package com.example.user_server;
 
-import com.example.user_server.bean.User;
-import com.example.user_server.r_cache.RedisCacheConfig;
+import com.example.user_server.entity.User;
 import com.example.user_server.tool.UnsafeTool;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 public class simpleTest {
+
     @Test
     public void unsafeTest(){
         User user = new User();

@@ -1,24 +1,23 @@
 package com.example.user_server.r_cache;
 
 import com.alibaba.fastjson.JSON;
+import com.example.user_server.entity.User;
 import com.example.user_server.tool.BloomFilter;
 import org.apache.curator.shaded.com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.BitFieldSubCommands;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.StringRedisConnection;
-import org.springframework.data.redis.connection.jedis.JedisConnection;
-import org.springframework.data.redis.core.Cursor;
+import org.springframework.data.redis.core.HyperLogLogOperations;
 import org.springframework.data.redis.core.RedisCallback;
-import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import redis.clients.jedis.*;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 
@@ -160,4 +159,122 @@ public class RedisTool<T> {
         });
     }
 
+    /**
+     * 管道集合添加命令，减少开销
+     * @param map
+     */
+    public void addWithPipelined(Map<String,T> map){
+        stringRedisTemplate.executePipelined(new RedisCallback<Object>() {
+            @Override
+            public Object doInRedis(RedisConnection redisConnection) throws DataAccessException {
+                StringRedisConnection stringRedisConnection = (StringRedisConnection) redisConnection;
+                redisConnection.openPipeline();
+                map.keySet().stream().forEach(key->{
+                    stringRedisConnection.set(key,JSON.toJSONString(map.get(key)));
+                });
+                return null;
+            }
+        });
+    }
+    /**
+     * 管道集合删除命令，减少开销
+     * @param keys
+     */
+    public void deleteWithPipelined(List<String> keys){
+        stringRedisTemplate.executePipelined(new RedisCallback<Object>() {
+            @Override
+            public Object doInRedis(RedisConnection redisConnection) throws DataAccessException {
+                StringRedisConnection stringRedisConnection = (StringRedisConnection) redisConnection;
+                redisConnection.openPipeline();
+                keys.stream().forEach(stringRedisConnection::del);
+                return null;
+            }
+        });
+    }
+
+    /**
+     * 事务处理增删改
+     * @param methodMap
+     * @throws IllegalAccessException
+     */
+    public void openTransaction(Map<User, Method> methodMap) throws IllegalAccessException{
+        stringRedisTemplate.setEnableTransactionSupport(true);
+        stringRedisTemplate.multi();
+        methodMap.keySet().stream().forEach(key->{
+            try {
+                if (methodMap.get(key).getName().contains("set")){
+                    methodMap.get(key).invoke(stringRedisTemplate,key.getUser_id(),key);
+                }else {
+                    methodMap.get(key).invoke(stringRedisTemplate,key.getUser_id());
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        });
+        stringRedisTemplate.exec();
+    }
+
+    /**
+     * 设置位图
+     * @param key
+     * @param index
+     * @param sign
+     */
+    public void setBit(String key, long index, boolean sign){
+        stringRedisTemplate.opsForValue().setBit(key,index,sign);
+    }
+
+    /**
+     * 取得位图对应位置的bit值
+     * @param key
+     * @param list
+     * @return
+     */
+    public List<Object> getBit(String key, List<Integer> list){
+        return stringRedisTemplate.executePipelined(new RedisCallback<List<Boolean>>() {
+            @Override
+            public List<Boolean> doInRedis(RedisConnection redisConnection) throws DataAccessException {
+                StringRedisConnection stringRedisConnection = (StringRedisConnection) redisConnection;
+                stringRedisConnection.openPipeline();
+                list.stream().forEach(index->{
+                    stringRedisConnection.getBit(key,index);
+                });
+                return null;
+            }
+        });
+    }
+    /*public boolean getBit(String key, int... index){
+        BitFieldSubCommands bitFieldSubCommands = BitFieldSubCommands.create();
+        BitFieldSubCommands.BitFieldType bitFieldType = null;
+        for (int i =0; i<index.length; i ++){
+            bitFieldType = BitFieldSubCommands.BitFieldType.signed(index[i]);
+            bitFieldSubCommands.get(bitFieldType);
+        }
+        stringRedisTemplate.opsForValue().bitField(key,bitFieldSubCommands);
+        return stringRedisTemplate.opsForValue().getBit(key, index[0]);
+    }*/
+
+    /**
+     * 添加HypeLogLog对象
+     * @param key
+     * @param values
+     */
+    public void addHypeLogLog(String key, List<String> values){
+        HyperLogLogOperations<String,String> hyperLogLogOperations= stringRedisTemplate.opsForHyperLogLog();
+        values.stream().forEach(value->{
+            hyperLogLogOperations.add(key, (String []) values.toArray());
+        });
+    }
+
+    /**
+     * 获取当前HypeLogLog的总计
+     * @param key
+     * @return
+     */
+    public long getHypeLogLog(String key){
+        HyperLogLogOperations<String,String> hyperLogLogOperations= stringRedisTemplate.opsForHyperLogLog();
+        return hyperLogLogOperations.size(key);
+    }
 }
