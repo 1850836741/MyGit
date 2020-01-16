@@ -13,7 +13,7 @@ public class User {
     private int user_id;
     private String password;
     private String name;
-    private BitSet bitSet;
+    private BitSet sex;
     private int cell_phone;
     private short grade;
     private short jurisdiction;
@@ -38,11 +38,11 @@ public class User {
                 jurisdiction == user.jurisdiction &&
                 Objects.equals(password, user.password) &&
                 Objects.equals(name, user.name) &&
-                Objects.equals(bitSet, user.bitSet);
+                Objects.equals(sex, user.sex);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(user_id, password, name, bitSet, cell_phone, grade, jurisdiction);
+        return Objects.hash(user_id, password, name, sex, cell_phone, grade, jurisdiction);
     }
 }
