@@ -6,6 +6,7 @@ import lombok.Data;
 public class QQRelationUser {
     private String id;
     private int invitation_id;
+    private User user;
 
     public QQRelationUser(){
     }

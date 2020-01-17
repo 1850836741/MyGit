@@ -6,6 +6,7 @@ import lombok.Data;
 public class WeChatRelationUser {
     private String id;
     private int invitation_id;
+    private User user;
 
     public WeChatRelationUser(){
     }

@@ -49,13 +49,25 @@ public class RedisTool<T> {
     }
 
     /**
+     * 设置空key，用以防止缓存击穿
+     * @param key
+     */
+    public void addEmptyWithLimit(String key, int timeout, TimeUnit timeUnit){
+        stringRedisTemplate.opsForValue().set(key,"empty",timeout,timeUnit);
+    }
+
+    /**
      * 返回查询对应key的对象
      * @param key
      * @param ObjectClass
      * @return
      */
     public T selectObject(String key, Class<T> ObjectClass){
-        T value = JSON.parseObject(stringRedisTemplate.opsForValue().get(key),ObjectClass);
+        String valueString = stringRedisTemplate.opsForValue().get(key);
+        if (valueString.equals("empty")){
+            return null;
+        }
+        T value = JSON.parseObject(valueString,ObjectClass);
         return value;
     }
 
@@ -86,7 +98,11 @@ public class RedisTool<T> {
      * @return
      */
     public T selectUserByHash(String hashKey, String key, Class<T> ObjectClass){
-        T value = JSON.parseObject(String.valueOf(stringRedisTemplate.opsForHash().get(hashKey,key)),ObjectClass);
+        String valueString = String.valueOf(stringRedisTemplate.opsForHash().get(hashKey,key));
+        if (valueString.equals("empty")){
+            return null;
+        }
+        T value = JSON.parseObject(valueString,ObjectClass);
         return value;
     }
 
