@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class simpleTest {
@@ -41,6 +43,14 @@ public class simpleTest {
             });
             t.start();
         }
+    }
+
+    @Test
+    public void timeTest(){
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd");
+        System.out.println(simpleDateFormat.format(date));
+        System.out.println(Integer.parseInt("01"));
     }
 
 }

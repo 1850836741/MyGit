@@ -260,6 +260,23 @@ public class RedisTool<T> {
             }
         });
     }
+
+    /**
+     * 获取位图在一定范围内bit为true的数量
+     * @param key
+     * @param length
+     * @return
+     */
+    public Long getBitCount(String key, int length){
+        return stringRedisTemplate.execute(new RedisCallback<Long>() {
+            @Override
+            public Long doInRedis(RedisConnection redisConnection) throws DataAccessException {
+                StringRedisConnection stringRedisConnection = (StringRedisConnection) redisConnection;
+                stringRedisConnection.bitCount(key,0, (length&7)==0?length>>3:length>>3+1);  //length是字节为单位的
+                return null;
+            }
+        });
+    }
     /*public boolean getBit(String key, int... index){
         BitFieldSubCommands bitFieldSubCommands = BitFieldSubCommands.create();
         BitFieldSubCommands.BitFieldType bitFieldType = null;

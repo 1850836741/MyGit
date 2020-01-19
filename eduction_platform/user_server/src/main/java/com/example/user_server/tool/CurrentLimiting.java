@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class CurrentLimiting {
     public int capacity;                  //容量
     public float currentSpeed;            //流速
-    public AtomicInteger surplusSpace;    //剩余空间
+    public volatile AtomicInteger surplusSpace;    //剩余空间
     public long lastTime;                 //上一次灌水时间
 
 

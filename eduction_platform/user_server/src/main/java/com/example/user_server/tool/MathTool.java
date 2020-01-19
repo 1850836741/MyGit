@@ -2,6 +2,9 @@ package com.example.user_server.tool;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * 数学计算相关的工具类
+ */
 public class MathTool {
 
     /**
@@ -52,4 +55,5 @@ public class MathTool {
     public static int getRandom(int origin, int bound){
         return ThreadLocalRandom.current().nextInt(origin,bound);
     }
+
 }

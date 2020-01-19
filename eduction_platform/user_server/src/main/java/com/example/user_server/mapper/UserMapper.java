@@ -13,7 +13,7 @@ public interface UserMapper {
      * @param user_id
      * @return
      */
-    @Select("SELECT * FROM user_table WHERE user_id = #{user_id}")
+    @SelectProvider(value = UserSqlProvider.class,method = "getUserById")
     User getUserById(@Param(value = "user_id") int user_id);
 
     /**
@@ -21,7 +21,7 @@ public interface UserMapper {
      * @param user_id
      * @return
      */
-    @Select("SELECT user_id, password, jurisdiction FROM user_table WHERE user_id = #{user_id}")
+    @SelectProvider(value = UserSqlProvider.class,method = "getLogInInformation")
     User getLogInInformation(@Param(value = "user_id") int user_id);
 
     /**
@@ -29,15 +29,14 @@ public interface UserMapper {
      * @param user_id
      * @return
      */
-    @Select("SELECT user_id, password, jurisdiction FROM user_table WHERE user_id = #{user_id}")
+    @SelectProvider(value = UserSqlProvider.class,method = "getGradeById")
     short getGradeById(@Param(value = "user_id") int user_id);
 
     /**
      * 添加用户user
      * @param user
      */
-    @Insert("INSET INTO user_table(user_id,password,name,sex,cell_phone,grade,jurisdiction) " +
-            "VALUES(#{user_id},#{password},#{name},#{sex},#{cell_phone},#{grade},#{jurisdiction})")
-    void addUser(User user);
+    @SelectProvider(value = UserSqlProvider.class,method = "addUserBaseInformation")
+    void addUserBaseInformation(User user);
 
 }
