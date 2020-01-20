@@ -3,11 +3,12 @@ package com.example.user_server;
 import com.example.user_server.entity.User;
 import com.example.user_server.tool.UnsafeTool;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class simpleTest {
@@ -53,4 +54,23 @@ public class simpleTest {
         System.out.println(Integer.parseInt("01"));
     }
 
+    @Test
+    public void typeTest(){
+        User user = new User();
+        Type uType = user.getClass().getClass().getGenericSuperclass();
+        System.out.println(uType.getTypeName());
+
+        Type mySuperClass = new ArrayList<String>().getClass().getGenericSuperclass();
+        Type type = ((ParameterizedType)mySuperClass).getActualTypeArguments()[0];
+        System.out.println(type.getTypeName());
+    }
+
+    @Test
+    public void listTest(){
+        List<User> users = new ArrayList<>();
+        User user = new User(170912010,"123456",1);
+        users.add(user);
+        user.setCell_phone(2);
+        System.out.println(users.get(0));
+    }
 }

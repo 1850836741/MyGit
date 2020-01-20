@@ -1,20 +1,22 @@
-package com.example.user_server.r_cache.user_cache;
+package com.example.oauth2_server.r_cache.user_cache;
 
-
-import com.example.user_server.entity.User;
-import com.example.user_server.mapper.UserMapper;
-import com.example.user_server.r_cache.RedisCacheConfig;
-import com.example.user_server.r_cache.RedisTool;
-import com.example.user_server.tool.BloomFilter;
-import com.example.user_server.tool.DateTool;
-import com.example.user_server.tool.MathTool;
+import com.example.oauth2_server.entity.User;
+import com.example.oauth2_server.mapper.UserMapper;
+import com.example.oauth2_server.r_cache.RedisCacheConfig;
+import com.example.oauth2_server.r_cache.RedisTool;
+import com.example.oauth2_server.tool.BloomFilter;
+import com.example.oauth2_server.tool.DateTool;
+import com.example.oauth2_server.tool.MathTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Component;
+
 import java.util.concurrent.TimeUnit;
 
 /**
  * User缓存工具包
  */
+@Component
 public class UserCacheTool {
 
     @Autowired
@@ -26,12 +28,12 @@ public class UserCacheTool {
     @Autowired
     BloomFilter bloomFilter;
 
-    @Autowired
+    @Autowired(required = false)
     UserMapper userMapper;
 
 
     /***
-     * 根据ID查询用户信息,解决缓存穿透，雪崩等问题
+     * 查询出登陆所需要的账号，密码，权限信息,解决缓存穿透，雪崩等问题
      * @param user_id
      * @return
      */
@@ -40,7 +42,7 @@ public class UserCacheTool {
             if (stringRedisTemplate.opsForValue().get(user_id).equals("empty"))return null;
             User user = redisTool.selectObject(String.valueOf(user_id),User.class);
             if (user == null){
-                user = userMapper.getUserById(user_id);
+                user = userMapper.getLogInInformation(user_id);
                 if (user == null){
                     redisTool.addEmptyWithLimit(String.valueOf(user_id),6, TimeUnit.SECONDS);
                     return null;

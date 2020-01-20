@@ -1,4 +1,4 @@
-package com.example.user_server.tool;
+package com.example.oauth2_server.tool;
 
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -10,6 +10,7 @@ import java.util.BitSet;
  * 布隆过滤器，用以去重
  */
 @Component
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class BloomFilter {
 
     private static BitSet bloomBitSet = new BitSet(Integer.MAX_VALUE);
