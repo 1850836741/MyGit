@@ -22,4 +22,3 @@ zuul:
       path: /oauth2/**
       serviceId: oauth2-server
       sensitiveHeaders: "*"
-  add-host-header: true
