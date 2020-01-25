@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  * User缓存工具包
  */
 @Component
-public class UserCacheTool {
+public class UserCacheTool extends RedisTool{
 
     @Autowired
     StringRedisTemplate stringRedisTemplate;
@@ -75,32 +75,10 @@ public class UserCacheTool {
     }
 
     /**
-     * 获取今年用户登录总天数
+     * 记录用户登录个数
      * @param user_id
-     * @return
      */
-    public Long getUserLogInDays(int user_id){
-        StringBuilder stringBuilder = new StringBuilder(RedisCacheConfig.USER_LOGIN_DAYS_PREFIX);
-        stringBuilder.append(user_id);
-        return redisTool.getBitCount(stringBuilder.toString(),DateTool.getDaysApartNowYearFirstDay());
+    public void setUserLoginToCount(int user_id){
+        redisTool.addHypeLogLog(RedisCacheConfig.ALL_USER_LOGIN_NUMBER_KEY, String.valueOf(user_id));
     }
-
-    /**
-     *设置用户的等级(将short转为对应配置文件的String)
-     * @param user_id
-     * @param grade
-     */
-    public void addUserGrade(int user_id,short grade){
-        stringRedisTemplate.opsForHash().put(RedisCacheConfig.USERS_GRADE_HASH,user_id,RedisCacheConfig.getGrade_Map().get(grade));
-    }
-
-    /**
-     * 获取用户的等级(将short转为对应配置文件的String)
-     * @param user_id
-     * @return
-     */
-    public String getUserGrade(int user_id){
-        return (String) stringRedisTemplate.opsForHash().get(RedisCacheConfig.USERS_GRADE_HASH,user_id);
-    }
-
 }

@@ -295,11 +295,21 @@ public class RedisTool<T> {
     }*/
 
     /**
-     * 添加HypeLogLog对象
+     * 添加value进HypeLogLog对象
+     * @param key
+     * @param value
+     */
+    public void addHypeLogLog(String key, String value){
+        HyperLogLogOperations<String,String> hyperLogLogOperations= stringRedisTemplate.opsForHyperLogLog();
+        hyperLogLogOperations.add(key,value);
+    }
+
+    /**
+     * 将List里的值添加进HypeLogLog对象
      * @param key
      * @param values
      */
-    public void addHypeLogLog(String key, List<String> values){
+    public void addHypeLogLogWithList(String key, List<String> values){
         HyperLogLogOperations<String,String> hyperLogLogOperations= stringRedisTemplate.opsForHyperLogLog();
         values.stream().forEach(value->{
             hyperLogLogOperations.add(key, (String []) values.toArray());
