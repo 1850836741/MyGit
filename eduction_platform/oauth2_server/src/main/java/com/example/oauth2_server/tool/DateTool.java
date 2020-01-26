@@ -1,5 +1,7 @@
 package com.example.oauth2_server.tool;
 
+import org.springframework.stereotype.Component;
+
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -8,6 +10,7 @@ import java.util.List;
 /**
  * 操纵日期的工具类
  */
+@Component
 public class DateTool {
 
     /**

@@ -29,6 +29,14 @@ public class RedisCacheConfig {
     /*存储每日用户登陆总次数HypeLogLog结构的key值*/
     public static final String ALL_USER_LOGIN_NUMBER_KEY = "userLoginNumber";
 
+    /*客户端存储的accessToken的key*/
+    public static final String COOKIE_TOKEN_KEY = "accessToken";
+
+    /*客户端存储的refreshToken的key*/
+    public static final String COOKIE_REFRESH_TOKEN_KEY = "refreshToken";
+
+    public static final String LIMIT_USER_PREFIX = "limit";
+
     public static final short JURISDICTION_MAX = 6;
     public static final short JURISDICTION_MIN = 0;
 

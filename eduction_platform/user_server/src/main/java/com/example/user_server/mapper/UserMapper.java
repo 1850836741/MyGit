@@ -39,4 +39,17 @@ public interface UserMapper {
     @SelectProvider(value = UserSqlProvider.class,method = "addUserBaseInformation")
     void addUserBaseInformation(User user);
 
+    /**
+     * 通过账号删除用户
+     * @param user_id
+     */
+    @SelectProvider(value = UserSqlProvider.class,method = "deleteUser")
+    void deleteUser(int user_id);
+
+    /**
+     * 修改用户信息
+     * @param user
+     */
+    @SelectProvider(value = UserSqlProvider.class,method = "updateUser")
+    void updateUser(User user);
 }

@@ -11,6 +11,7 @@ import org.springframework.data.redis.connection.StringRedisConnection;
 import org.springframework.data.redis.core.HyperLogLogOperations;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Component;
 import redis.clients.jedis.*;
 
 import java.io.IOException;
@@ -23,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * 操作redis缓存的工具类,UserHash为存储用户信息的ID
  */
+@Component
 public class RedisTool<T> {
 
     @Autowired

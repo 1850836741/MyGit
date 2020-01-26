@@ -88,4 +88,59 @@ public class UserSqlProvider {
             }
         }.toString();
     }
+
+
+    /**
+     * 根据账户删除用户
+     * @param user_id
+     * @return
+     */
+    public String deleteUser(int user_id){
+        return new SQL(){
+            {
+                StringBuilder stringBuilder = new StringBuilder("user_id = ");
+                DELETE_FROM("user_table");
+                if (user_id>100000 && user_id<Integer.MAX_VALUE){
+                    stringBuilder.append("#{user_id}");
+                    WHERE(stringBuilder.toString());
+                }
+            }
+        }.toString();
+    }
+
+    /**
+     * 修改用户信息
+     * @param user
+     * @return
+     */
+    public String updateUser(User user){
+        return new SQL(){
+            {
+                UPDATE("user_table");
+                if (user.getPassword() != null
+                        && user.getPassword().length() <= 20
+                        && user.getPassword().length()>0){
+                    SET("password = #{password}");
+                }
+
+                if (user.getName() != null){
+                    SET("name = #{name}");
+                }
+
+                if (user.getCell_phone().length() == 11){
+                    SET("cell_phone = #{cell_phone}");
+                }
+
+                if (user.getGrade() >= RedisCacheConfig.GRADE_MIN && user.getGrade() <= RedisCacheConfig.GRADE_MAX){
+                    SET("grade = #{grade}");
+                }
+
+                SET("sex = ".concat(String.valueOf(user.getSex().get(0))));
+
+                if (user.getUser_id()>=100000 && user.getUser_id()<Integer.MAX_VALUE){
+                    WHERE("user_id = #{user_id}");
+                }
+            }
+        }.toString();
+    }
 }

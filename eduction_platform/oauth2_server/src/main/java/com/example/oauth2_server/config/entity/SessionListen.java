@@ -24,6 +24,5 @@ public class SessionListen implements HttpSessionListener {
 
     @Override
     public void sessionDestroyed(HttpSessionEvent se) {
-        SecurityContextHolder.getContext().getAuthentication().getName();
     }
 }

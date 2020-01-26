@@ -7,6 +7,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -68,9 +69,16 @@ public class simpleTest {
     @Test
     public void listTest(){
         List<User> users = new ArrayList<>();
-        User user = new User(170912010,"123456",1);
+        User user = new User(170912010,"123456","1");
         users.add(user);
-        user.setCell_phone(2);
+        user.setCell_phone("2");
         System.out.println(users.get(0));
+    }
+
+    @Test
+    public void bitTest(){
+        User user = new User();
+        user.setSex(new BitSet(1));
+        System.out.println(user.getSex().get(0));
     }
 }

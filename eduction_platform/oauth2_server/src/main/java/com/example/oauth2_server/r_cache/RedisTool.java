@@ -3,6 +3,7 @@ package com.example.oauth2_server.r_cache;
 import com.alibaba.fastjson.JSON;
 import com.example.oauth2_server.entity.User;
 import com.example.oauth2_server.tool.BloomFilter;
+import com.example.oauth2_server.tool.DateTool;
 import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -37,6 +38,8 @@ public class RedisTool<T> {
     @Autowired
     BloomFilter bloomFilter;
 
+    @Autowired
+    DateTool dateTool;
     /**
      * 向缓存中添加key-value
      * @param key
@@ -48,7 +51,10 @@ public class RedisTool<T> {
 
     /**
      * 向缓存中添加key-value并设置过期时间
+     * @param key
+     * @param value
      * @param timeout
+     * @param timeUnit
      */
     public void addObjectWithLimit(String key, T value, int timeout, TimeUnit timeUnit){
         stringRedisTemplate.opsForValue().set(key,JSON.toJSONString(value),timeout,timeUnit);
@@ -57,6 +63,8 @@ public class RedisTool<T> {
     /**
      * 设置空key，用以防止缓存击穿
      * @param key
+     * @param timeout
+     * @param timeUnit
      */
     public void addEmptyWithLimit(String key, int timeout, TimeUnit timeUnit){
         stringRedisTemplate.opsForValue().set(key,"empty",timeout,timeUnit);
@@ -70,7 +78,7 @@ public class RedisTool<T> {
      */
     public T selectObject(String key, Class<T> ObjectClass){
         String valueString = stringRedisTemplate.opsForValue().get(key);
-        if (valueString.equals("empty")){
+        if (valueString!=null&&valueString.equals("empty")){
             return null;
         }
         T value = JSON.parseObject(valueString,ObjectClass);
@@ -324,5 +332,23 @@ public class RedisTool<T> {
     public long getHypeLogLog(String key){
         HyperLogLogOperations<String,String> hyperLogLogOperations= stringRedisTemplate.opsForHyperLogLog();
         return hyperLogLogOperations.size(key);
+    }
+
+    /**
+     * 限制用户行为, 在一段时间内只能访问一定次数
+     * @param user_id
+     * @param limitTime
+     * @param requestCount
+     * @return
+     */
+    public boolean limitBehavior(int user_id,long limitTime,int requestCount){
+        StringBuilder stringBuilder = new StringBuilder(RedisCacheConfig.LIMIT_USER_PREFIX);
+        stringBuilder.append(user_id);
+        if (stringRedisTemplate.hasKey(stringBuilder.toString())){
+            return stringRedisTemplate.opsForValue().increment(stringBuilder.toString()) < requestCount;
+        }else {
+            stringRedisTemplate.opsForValue().set(stringBuilder.toString(),"1", limitTime, TimeUnit.MINUTES);
+        }
+        return true;
     }
 }

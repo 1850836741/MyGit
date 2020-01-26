@@ -14,14 +14,14 @@ public class User {
     private String password;
     private String name;
     private BitSet sex;
-    private int cell_phone;
+    private String cell_phone;
     private short grade;
     private short jurisdiction;
 
     public User(){
     }
 
-    public User(int user_id,String password,int cell_phone){
+    public User(int user_id,String password,String cell_phone){
         this.user_id = user_id;
         this.password = password;
         this.cell_phone = cell_phone;
