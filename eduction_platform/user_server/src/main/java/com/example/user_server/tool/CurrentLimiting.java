@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 漏斗限流服务，防止服务器压力过大
  */
 @Data
+@Component
 public class CurrentLimiting {
     public int capacity;                  //容量
     public float currentSpeed;            //流速

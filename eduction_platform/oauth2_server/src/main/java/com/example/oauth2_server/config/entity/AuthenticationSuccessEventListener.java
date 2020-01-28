@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -18,7 +19,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Pattern;
 
 
 /**
@@ -26,6 +29,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Component
 @Configuration
+@SessionAttributes(value = {"username"})
 public class AuthenticationSuccessEventListener implements ApplicationListener<AuthenticationSuccessEvent> {
 
     @Autowired
@@ -41,8 +45,11 @@ public class AuthenticationSuccessEventListener implements ApplicationListener<A
 
     @Override
     public void onApplicationEvent(AuthenticationSuccessEvent authenticationSuccessEvent) {
+        /*会有两次调用*/
+        Pattern pattern = Pattern.compile("[0-9]*");
         //若是登陆成功事件则执行
-        if (authenticationSuccessEvent.getSource().getClass().getName().equals("org.springframework.security.authentication.UsernamePasswordAuthenticationToken")){
+        if (authenticationSuccessEvent.getSource().getClass().getName().equals("org.springframework.security.authentication.UsernamePasswordAuthenticationToken") &&
+                pattern.matcher(authenticationSuccessEvent.getAuthentication().getName()).matches()){
             RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
             HttpServletRequest request = ((ServletRequestAttributes)requestAttributes).getRequest();
             userLoginIpAndSessionId.setIp(IpAdressTool.getIpAddress(request));
@@ -78,8 +85,7 @@ public class AuthenticationSuccessEventListener implements ApplicationListener<A
             }else {
                 //向map中储存
                 getUserLoginIpAndSessionIdConcurrentHashMap().put(authenticationSuccessEvent.getAuthentication().getName(),userLoginIpAndSessionId);
-
-                //统计并设置用户登陆状态
+                    //统计并设置用户登陆状态
                 userService.setUserLoginToCount(Integer.valueOf(authenticationSuccessEvent.getAuthentication().getName()));
                 userService.setUserLogInDays(Integer.valueOf(authenticationSuccessEvent.getAuthentication().getName()));
             }

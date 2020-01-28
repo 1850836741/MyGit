@@ -48,7 +48,6 @@ public class UserSelectService {
                     redisTool.addEmptyWithLimit(String.valueOf(user_id),6, TimeUnit.SECONDS);
                     return null;
                 }
-                bloomFilter.setInBloomSet(user_id);
                 redisTool.addObjectWithLimit(String.valueOf(user_id),user, MathTool.getRandom(3,8),TimeUnit.HOURS);
             }
             return user;
@@ -56,18 +55,6 @@ public class UserSelectService {
         return null;
     }
 
-
-
-
-    /**
-     * 设置用户登陆
-     * @param user_id
-     */
-    public void setUserLogInDays(int user_id){
-        StringBuilder stringBuilder = new StringBuilder(RedisCacheConfig.USER_LOGIN_DAYS_PREFIX);
-        stringBuilder.append(user_id);
-        redisTool.setBit(stringBuilder.toString(), DateTool.getDaysApartNowYearFirstDay(),true);
-    }
 
     /**
      * 获取今年用户登录总天数
@@ -80,14 +67,6 @@ public class UserSelectService {
         return redisTool.getBitCount(stringBuilder.toString(),DateTool.getDaysApartNowYearFirstDay());
     }
 
-    /**
-     *设置用户的等级(将short转为对应配置文件的String)
-     * @param user_id
-     * @param grade
-     */
-    public void addUserGrade(int user_id,short grade){
-        stringRedisTemplate.opsForHash().put(RedisCacheConfig.USERS_GRADE_HASH,user_id,RedisCacheConfig.getGrade_Map().get(grade));
-    }
 
     /**
      * 获取用户的等级(将short转为对应配置文件的String)
@@ -98,4 +77,32 @@ public class UserSelectService {
         return (String) stringRedisTemplate.opsForHash().get(RedisCacheConfig.USERS_GRADE_HASH,user_id);
     }
 
+    /**
+     * 判断账号大小是否符合
+     * @param user_id
+     * @return
+     */
+    public  boolean isRightfulSizeUserId(int user_id){
+        return user_id >= RedisCacheConfig.RIGHTFUL_USER_ID_MIN && user_id <= RedisCacheConfig.RIGHTFUL_USER_ID_MAX;
+    }
+
+    /**
+     * 判断密码长度是否符合
+     * @param password
+     * @return
+     */
+    public boolean isRightfulSizeUserPassword(String password){
+        return password.length() <= RedisCacheConfig.RIGHTFUL_USER_PASSWORD_SIZE_MAX
+                && password.length() >= RedisCacheConfig.RIGHTFUL_USER_PASSWORD_SIZE_MIN;
+    }
+
+    /**
+     * 判断是否为合法用户
+     * @param user
+     * @return
+     */
+    public boolean isRightUser(User user){
+        User realUser = getUserByIdFromCache(user.getUser_id());
+        return realUser != null && realUser.getPassword().equals(user.getPassword());
+    }
 }

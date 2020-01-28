@@ -113,4 +113,14 @@ public class DateTool {
             return totalDays;
         }
     }
+
+    /**
+     * 获取当前时间(精确到秒)
+     * @return
+     */
+    public static String getTime(){
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return simpleDateFormat.format(date);
+    }
 }

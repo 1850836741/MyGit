@@ -3,6 +3,8 @@ package com.example.oauth2_server.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -13,7 +15,11 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 
 /**
@@ -37,19 +43,23 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    AuthenticationManager authenticationManager;
+
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
+
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+
         clients.inMemory()
                 .withClient("client")
                 .secret(bCryptPasswordEncoder().encode("secret"))
-            .scopes("app")
-                .authorizedGrantTypes("refresh_token","authorization_code")
-                .redirectUris("http://localhost:8081/customer-server/getToken.html");
+                .scopes("app")
+                .authorizedGrantTypes("refresh_token","password");
 }
 
     @Override
@@ -63,6 +73,8 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
         tokenEnhancerChain.setTokenEnhancers(Arrays.asList(jwtAccessTokenConverter));
         endpoints.tokenStore(tokenStore)
                 .accessTokenConverter(jwtAccessTokenConverter)
-                .userDetailsService(userDetailsService);
+                .userDetailsService(userDetailsService)
+                .allowedTokenEndpointRequestMethods(HttpMethod.GET,HttpMethod.POST)
+                .authenticationManager(authenticationManager);
     }
 }

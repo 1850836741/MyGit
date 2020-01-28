@@ -36,8 +36,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             return null;
         }
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();                    //权限对象的ArraysList
-        if (userService.getUserByIdFromCache(Integer.valueOf(s))!=null){
-            User user = userService.getUserByIdFromCache(Integer.valueOf(s));
+        if (userService.getUserLoginInformationByIdFromCache(Integer.valueOf(s))!=null){
+            User user = userService.getUserLoginInformationByIdFromCache(Integer.valueOf(s));
             String[] roles = user.getJurisdiction().split(",");
             GrantedAuthority grantedAuthority = null;
             for (int i=0;i<roles.length;i++){

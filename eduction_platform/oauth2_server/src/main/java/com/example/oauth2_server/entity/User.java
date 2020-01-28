@@ -17,6 +17,7 @@ public class User {
     private int cell_phone;
     private short grade;
     private String jurisdiction;
+    private String creat_time;
 
     public User(){
     }

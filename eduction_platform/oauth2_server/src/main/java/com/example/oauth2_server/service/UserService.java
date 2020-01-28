@@ -33,7 +33,7 @@ public class UserService{
      * @param user_id
      * @return
      */
-    public User getUserByIdFromCache(int user_id){
+    public User getUserLoginInformationByIdFromCache(int user_id){
         if (stringRedisTemplate.opsForValue().get(String.valueOf(user_id))!=null&&stringRedisTemplate.opsForValue().get(String.valueOf(user_id)).equals("empty"))return null;
         User user = redisTool.selectObject(String.valueOf(user_id),User.class);
         if (user == null){

@@ -14,6 +14,11 @@ public class CloseTool {                                       //关闭单个流
         }
     }
 
+    /**
+     * length为总数-1
+     * @param length
+     * @param closeables
+     */
     public static void Close(int length,Closeable...closeables){               //递归关闭多个流,length是流的个数e
         if (closeables!=null){
             if(length>=0){

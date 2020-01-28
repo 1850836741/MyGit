@@ -11,6 +11,7 @@ import java.util.BitSet;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Pattern;
 
 public class simpleTest {
 
@@ -80,5 +81,17 @@ public class simpleTest {
         User user = new User();
         user.setSex(new BitSet(1));
         System.out.println(user.getSex().get(0));
+    }
+
+    @Test
+    public void pattenTest(){
+        Pattern pattern = Pattern.compile("[0-9]*");
+        System.out.println(pattern.matcher("123q").matches());
+    }
+
+    @Test
+    public void stringTest(){
+        String x = "123456";
+        System.out.println(x.substring(x.indexOf("23")));
     }
 }

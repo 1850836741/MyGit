@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 关联ID前置过滤器，用来给每个用户的请求链关联一个随机ID，便于链路追踪和日志分析
@@ -16,6 +17,10 @@ import java.util.UUID;
 public class RelationFilter extends ZuulFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(RelationFilter.class);
+
+    /*存储sessionId对应的请求关联值*/
+    @Autowired
+    ConcurrentHashMap<String,String> concurrentHashMap;
 
     @Autowired
     RelationUnits relationUnits;
