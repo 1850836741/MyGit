@@ -1,8 +1,17 @@
 server:
-  port: 8091
+  port: 8092
 spring:
   application:
-    name: user-server
+    name: resources-server
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+  servlet:
+    multipart:
+      max-file-size: 1000MB
+      max-request-size: 1000MB
+
+
   zipkin:
     base-url: http://localhost:9411
   datasource:
@@ -21,8 +30,6 @@ spring:
         max-idle: 8
         min-idle: 0
     timeout: 300
-mybatis:
-  type-aliases-package: com.example.user_server.mapper
 
 eureka:
   instance:

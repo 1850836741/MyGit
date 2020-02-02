@@ -12,10 +12,10 @@ public class MathTool {
      * @param a
      * @param b
      */
-    public static void swap(Integer a, Integer b){
-        a ^= b;
-        b ^= a;
-        a ^= b;
+    public static void swap(Integer a, Integer b, int[] arr){
+        arr[a] ^= arr[b];
+        arr[b] ^= arr[a];
+        arr[a] ^= arr[b];
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.example.user_server;
 
 import com.example.user_server.entity.User;
+import com.example.user_server.tool.MathTool;
 import com.example.user_server.tool.UnsafeTool;
 import org.junit.Test;
 import java.lang.reflect.ParameterizedType;
@@ -10,7 +11,9 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.IntConsumer;
 import java.util.regex.Pattern;
 
 public class simpleTest {
@@ -93,5 +96,57 @@ public class simpleTest {
     public void stringTest(){
         String x = "123456";
         System.out.println(x.substring(x.indexOf("23")));
+    }
+
+    static int exchFlag = 1;
+    static synchronized  void setExchFlag(int v){
+        exchFlag = v;
+    }
+    static synchronized int getExchFlag(){
+        return exchFlag;
+    }
+
+    public static class OddEventSortTask implements Runnable{
+        int arr[];
+        int i;
+        CountDownLatch countDownLatch;
+        public OddEventSortTask(int i, CountDownLatch countDownLatch, int[] arr){
+            this.i = i;
+            this.countDownLatch = countDownLatch;
+            this.arr = arr;
+        }
+
+        @Override
+        public void run() {
+            if (arr[i] > arr[i+1]){
+                MathTool.swap(i,i+1,arr);
+                setExchFlag(1);
+            }
+            countDownLatch.countDown();
+        }
+    }
+
+    @Test
+    public void OddTest() throws InterruptedException {
+        int arr[] = {3,2,8,4,6,7,9,13,10,1,5};
+        int start = 0;
+        while (getExchFlag() == 1 || start == 1){
+            System.out.println("????????????????");
+            setExchFlag(0);
+            CountDownLatch countDownLatch = new CountDownLatch(arr.length/2-(arr.length%2==0?start:0));
+            for (int i = start; i < arr.length-1; i+=2){
+                new Thread(new OddEventSortTask(i,countDownLatch,arr)).start();
+            }
+            countDownLatch.await();;
+            if (start == 0){
+                start = 1;
+            }else {
+                start = 0;
+            }
+        }
+        for (int i = 0; i < arr.length; i++){
+            System.out.println(arr[i]);
+        }
+        IntConsumer intConsumer = MathTool::abs;
     }
 }
