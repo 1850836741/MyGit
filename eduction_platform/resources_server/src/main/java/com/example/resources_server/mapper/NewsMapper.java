@@ -1,7 +1,5 @@
 package com.example.resources_server.mapper;
 
-import com.example.resources_server.entity.Book;
-import com.example.resources_server.entity.BookSqlProvider;
 import com.example.resources_server.entity.News;
 import com.example.resources_server.entity.NewsSqlProvider;
 import org.apache.ibatis.annotations.SelectProvider;

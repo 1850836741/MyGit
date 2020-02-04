@@ -44,6 +44,7 @@ public class UserSelectService {
             User user = redisTool.selectObject(String.valueOf(user_id),User.class);
             if (user == null){
                 user = userMapper.getUserById(user_id);
+                //如果存在该记录，则在缓存中传入一个
                 if (user == null){
                     redisTool.addEmptyWithLimit(String.valueOf(user_id),6, TimeUnit.SECONDS);
                     return null;

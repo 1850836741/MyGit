@@ -1,6 +1,8 @@
 package com.example.resources_server.r_cache;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,4 +53,25 @@ public class RedisCacheConfig {
         GRADE_MAP.put(6,"学神");
         return GRADE_MAP;
     }
+
+    /*热点视频md5值存储的地方*/
+    public static final  String VIDEO_MD5_HOT_CACHE_HASH = "hotVideos";
+
+    /*热点书籍md5值存储的地方*/
+    public static final  String BOOK_MD5_HOT_CACHE_HASH = "hotBooks";
+
+    /*存放分片的路径*/
+    public static final String TEMPORARY_FILE_PATH = "F:/TemporaryFile/";
+
+    /*最终存放Video文件的地方*/
+    public static final String VIDEO_STORAGE_PATH = System.getProperty("user.dir").concat("\\target\\classes\\static\\Video\\");
+
+    /*最终存放Video文件的地方*/
+    public static final String BOOK_STORAGE_PATH = System.getProperty("user.dir").concat("\\target\\classes\\static\\Book\\");
+
+    /*待审批，信息暂存于redisHash中*/
+    public static final String PENDING_APPROVAL_VIDEO = "pendingApprovalVideos";
+
+    /*待审批，信息暂存于redisHash中*/
+    public static final String PENDING_APPROVAL_BOOK = "pendingApprovalBooks";
 }

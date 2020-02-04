@@ -103,7 +103,7 @@ public class RedisTool<T> {
      * @param ObjectClass
      * @return
      */
-    public T selectUserByHash(String hashKey, String key, Class<T> ObjectClass){
+    public T selectObjectByHash(String hashKey, String key, Class<T> ObjectClass){
         String valueString = String.valueOf(stringRedisTemplate.opsForHash().get(hashKey,key));
         if (valueString.equals("empty")){
             return null;

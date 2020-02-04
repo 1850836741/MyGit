@@ -120,6 +120,12 @@
             <artifactId>curator-recipes</artifactId>
             <version>2.7.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.jsoup</groupId>  <!-- jsoup用于解析html用的 -->
+            <artifactId>jsoup</artifactId>
+            <version>1.11.3</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>

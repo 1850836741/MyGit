@@ -13,7 +13,7 @@ import java.io.*;
 public class testController {
 
     @RequestMapping(value = "/")
-    public String tst(){
+    public String test(){
         return "upload";
     }
 
@@ -41,7 +41,7 @@ public class testController {
     public Boolean checkChunk(@RequestParam(value = "md5File") String md5File,
                               @RequestParam(value = "chunk") Integer chunk) {
         Boolean exist = false;
-        String path = "E:/"+md5File+"/";//分片存放目录
+        String path = "F:/TemporaryFile/"+md5File+"/";//分片存放目录
         String chunkName = chunk+ ".tmp";//分片名
         File file = new File(path+chunkName);
         if (file.exists()) {

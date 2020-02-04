@@ -3,7 +3,6 @@ package com.example.resources_server.mapper;
 import com.example.resources_server.entity.Video;
 import com.example.resources_server.entity.VideoSqlProvider;
 import org.apache.ibatis.annotations.SelectProvider;
-
 import java.util.List;
 
 /**
@@ -49,7 +48,7 @@ public interface VideoMapper {
      * @return
      */
     @SelectProvider(value = VideoSqlProvider.class,method = "")
-    public List<Video> getVideoShowBaseInformationByType(short file_type);
+    public List<Video> getVideosShowBaseInformationByType(String file_type,int count);
 
     /**
      * 根据上传者id获取在页面展示的基本信息
@@ -57,7 +56,7 @@ public interface VideoMapper {
      * @return
      */
     @SelectProvider(value = VideoSqlProvider.class,method = "")
-    public List<Video> getVideoShowBaseInformationByUpload_Id(int upload_id);
+    public List<Video> getVideosShowBaseInformationByUpload_Id(int upload_id);
 
     /**
      * 根据视频id获取上传者的账号

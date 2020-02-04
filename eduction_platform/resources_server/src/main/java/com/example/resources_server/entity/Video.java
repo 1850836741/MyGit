@@ -9,7 +9,7 @@ import lombok.Data;
 public class Video implements LearningMaterials{
     private String id;
     private String headline;
-    private short file_type;
+    private String file_type;
     private String file_format;
     private int upload_id;
     private int audit_id;
@@ -20,7 +20,7 @@ public class Video implements LearningMaterials{
     public Video() {
     }
 
-    public Video(String id, String headline, short file_type, String file_format, int upload_id, int audit_id, String creation_time, int like_number, int comment_number) {
+    public Video(String id, String headline, String file_type, String file_format, int upload_id, int audit_id, String creation_time, int like_number, int comment_number) {
         this.id = id;
         this.headline = headline;
         this.file_type = file_type;
