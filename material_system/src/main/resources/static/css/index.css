@@ -1,0 +1,88 @@
+@charset "utf-8";
+/* CSS Document */
+.div_menu{
+	width:auto;
+	height:50px;
+}
+.div_color1{
+	background-color: #393c4a;
+	color: #ffffff;
+	font-size:24px;
+}
+.fontsize{
+	font-size:26px;
+}
+.div_float{
+	display:inline;
+}
+.div_size{
+	margin:0 auto;
+}
+p{
+	color: cornsilk;
+}
+.input{
+	width: 500px;
+	height: 40px;
+	background-color: transparent;
+	border-style: solid;
+	border-color: cornsilk;
+}
+.button1 {
+	-webkit-transition-duration: 0.4s;
+	transition-duration: 0.4s;
+	padding: 16px 32px;
+	text-align: center;
+	background-color: white;
+	color: black;
+	border-radius:5px;
+}
+.button1:hover {
+	background-color: #4CAF50;
+	color: white;
+}
+
+.myCss{
+	font-size: 20px;
+	color: wheat;
+	border: 1px solid white
+}
+
+.secondCss{
+	font-size: 15px;
+	color: powderblue;
+	border: 1px solid white
+}
+
+.sourceDelete{
+	background: red;
+	font-size: 15px;
+	width: 100%;
+	height: 100%;
+	color: white;
+}
+
+#model{
+	width:700px;
+	height:500px;
+	margin-left:-200px;
+	margin-top:0px;
+	background-color: hotpink;
+	position:fixed;
+	top:20%;
+	left:40%;
+	z-index: 200;
+}
+#outer{
+	position:fixed;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	z-index:100;
+	padding-top:0%;
+	text-align:center;
+	background: rgba(255, 255, 255, 0.5) no-repeat center center;
+	filter:alpha(opacity=50);
+	display: none;
+}

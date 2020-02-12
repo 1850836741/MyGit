@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <!--引入CSS-->
+    <link rel="stylesheet" type="text/css" href="/css/webuploader.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-static-top navbar-inverse navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/">返回主页</a></li>
+                <li><a th:href="@{/user/getAllMessage(index=1,material_upload_college=${college})}">查看往日消息</a></li>
+                <li><a th:href="@{/user/selectMaterialByCollege(material_upload_college=${college})}">我的文件</a></li>
+                <li><a href="/logout">登出</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a th:href="@{/admin/adminIndex}">管理员页面</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div>
+    <div class="list-group col-md-offset-1 col-lg-offset-4col-xl-offset-4" th:if="${messages!=null}" style="width: 30%;float: left">
+        <a th:each="message,messageStat:${messages}" th:href="@{/user/getMessageById(message_id=${message.getMessage_id()},material_upload_college=${college})}"
+           th:if="${messageStat.count}<=10" class="list-group-item list-group-item-info">
+            <h4 th:text="${message.getMessage_name()}"></h4>
+            <p th:text="${message.getCreat_time()}"></p>
+        </a>
+    </div>
+    <div class="list-group col-md-offset-3 col-lg-offset-4col-xl-offset-4" th:if="${messages!=null&&messages.size()>10}" style="width: 30%;float: left">
+        <a th:each="message,messageStat:${messages}" th:href="@{/user/getMessageById(message_id=${message.getMessage_id()},material_upload_college=${college})}"
+           th:if="${messageStat.count}>10" class="list-group-item list-group-item-success">
+            <h4 th:text="${message.getMessage_name()}"></h4>
+            <p th:text="${message.getCreat_time()}"></p>
+        </a>
+    </div>
+</div>
+
+<nav class="navbar navbar-default navbar-fixed-bottom" aria-label="Page navigation" style="text-align: center">
+    <div class="container">
+        <ul class="pagination">
+            <li>
+                <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li th:each="number:${numberList}">
+                <a th:href="@{/user/getAllMessage(index=${number},material_upload_college=${college})}" th:text="${number}"></a>
+            </li>
+            <li>
+                <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+</body>
+</html>

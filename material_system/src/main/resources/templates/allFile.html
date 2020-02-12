@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <!--引入CSS-->
+    <link rel="stylesheet" type="text/css" href="/css/webuploader.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/index.css" />
+    <link rel="stylesheet" type="text/css" href="/css/base.css">
+    <script src="/js/adapter.js" type="text/javascript"></script> <!--rem适配js-->
+</head>
+<body>
+<nav class="navbar navbar-default navbar-static-top navbar-inverse navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/">返回用户主页</a></li>
+                <li><a href="/logout">登出</a></li>
+                <li><a href="/admin/adminIndex" >生成Excel界面</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!--菜单-->
+<div class="div_float">
+    <div id="menu">
+        <!--隐藏菜单-->
+        <div id="ensconce">
+            <h2>
+                <img src="/images/show.png" alt="">
+            </h2>
+        </div>
+
+        <!--显示菜单-->
+        <div id="open">
+            <div class="navH">
+                <span><img class="obscure" src="/images/obscure.png" alt=""></span>功能列表
+            </div>
+            <div class="navBox">
+                <ul>
+                    <li>
+                        <h2 class="obtain">教务科<i></i></h2>
+                        <div class="secondary">
+                            <a href="/admin/selectAllMaterial?index=1&material_upload_department=教务科"><h3>文件管理</h3></a>
+                            <a href="/admin/downLoadFileByDepartment?material_upload_department=教务科"><h3>下载本科室所有文件</h3></a>
+                        </div>
+                    </li>
+                    <li>
+                        <h2 class="obtain">选课中心<i></i></h2>
+                        <div class="secondary">
+                            <a href="/admin/selectAllMaterial?index=1&material_upload_department=选课中心"><h3>文件管理</h3></a>
+                            <a href="/admin/downLoadFileByDepartment?material_upload_department=选课中心"><h3>下载本科室所有文件</h3></a>
+                        </div>
+                    </li>
+                    <li>
+                        <h2 class="obtain">考试中心<i></i></h2>
+                        <div class="secondary">
+                            <a href="/admin/selectAllMaterial?index=1&material_upload_department=考试中心"><h3>文件管理</h3></a>
+                            <a href="/admin/downLoadFileByDepartment?material_upload_department=考试中心"><h3>下载本科室所有文件</h3></a>
+                        </div>
+                    </li>
+                    <li>
+                        <h2 class="obtain">实践科<i></i></h2>
+                        <div class="secondary">
+                            <a href="/admin/selectAllMaterial?index=1&material_upload_department=实践科"><h3>文件管理</h3></a>
+                            <a href="/admin/downLoadFileByDepartment?material_upload_department=实践科"><h3>下载本科室所有文件</h3></a>
+                        </div>
+                    </li>
+                    <li>
+                        <h2 class="obtain">教学科研室<i></i></h2>
+                        <div class="secondary">
+                            <a href="/admin/selectAllMaterial?index=1&material_upload_department=教学科研室"><h3>文件管理</h3></a>
+                            <a href="/admin/downLoadFileByDepartment?material_upload_department=教学科研室"><h3>下载本科室所有文件</h3></a>
+                        </div>
+                    </li>
+                    <li>
+                        <h2 class="obtain">教学材料<i></i></h2>
+                        <div class="secondary">
+                            <a href="/admin/selectAllMaterial?index=1&material_upload_department=教学材料"><h3>文件管理</h3></a>
+                            <a href="/admin/downLoadFileByDepartment?material_upload_department=教学材料"><h3>下载本科室所有文件</h3></a>
+                        </div>
+                    </li>
+                    <li>
+                        <h2 class="obtain">质量监控室<i></i></h2>
+                        <div class="secondary">
+                            <a href="/admin/selectAllMaterial?index=1&material_upload_department=质量监控室"><h3>文件管理</h3></a>
+                            <a href="/admin/downLoadFileByDepartment?material_upload_department=质量监控室"><h3>下载本科室所有文件</h3></a>
+                        </div>
+                    </li>
+                    <li>
+                        <h2 class="obtain">用户管理<i></i></h2>
+                        <div class="secondary">
+                            <a href="/admin/toAddCollege"><h3>添加用户</h3></a>
+                            <a href="/admin/getAllCollege"><h3>管理用户</h3></a>
+                        </div>
+                    </li>
+                    <li>
+                        <h2 class="obtain">添加消息<i></i></h2>
+                        <div class="secondary">
+                            <a href="/admin/toAddMessage"><h3>添加消息</h3></a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="/js/menu.js"></script> <!--控制js-->
+</div>
+
+<ul class="list-group col-md-offset-1 col-lg-offset-4col-xl-offset-4" th:if="${materials!=null}" style="width: 30%;float: left">
+    <li th:each="material,materialStat:${materials}" th:if="${materialStat.count}<=10" class="list-group-item list-group-item-info">
+        <h4 th:text="${material.getMaterial_name()}"></h4>
+        <span th:text="${material.getMaterial_upload_college()}"></span>
+        <span th:text="${material.getMaterial_upload_department()}"></span>
+        <span th:text="${material.getUpload_time()}"></span>
+        <a th:href="@{/admin/adminDeleteMaterialById(material_upload_department=${material.getMaterial_upload_department()},material_md5_id=${material.getMaterial_md5_id()})}">删除文件</a>
+        <a th:href="@{/user/downLoadSelfFile(material_md5_id=${material.getMaterial_md5_id()},material_upload_college=${material.getMaterial_upload_college()})}">下载文件</a>
+    </li>
+</ul>
+
+<ul class="list-group col-md-offset-3 col-lg-offset-4col-xl-offset-4" th:if="${materials!=null}" style="width: 30%;float: left">
+    <li th:each="material,materialStat:${materials}" th:if="${materials!=null&&materialStat.count>10}" class="list-group-item list-group-item-info">
+        <h4 th:text="${material.getMaterial_name()}"></h4>
+        <span th:text="${material.getMaterial_upload_college()}"></span>
+        <span th:text="${material.getMaterial_upload_department()}"></span>
+        <span th:text="${material.getUpload_time()}"></span>
+        <a th:href="@{/admin/adminDeleteMaterialById(material_upload_department=${material.getMaterial_upload_department()},material_md5_id=${material.getMaterial_md5_id()})}">删除文件</a>
+        <a th:href="@{/user/downLoadSelfFile(material_md5_id=${material.getMaterial_md5_id()},material_upload_college=${material.getMaterial_upload_college()})}">下载文件</a>
+    </li>
+</ul>
+
+
+<nav class="navbar navbar-default navbar-fixed-bottom" aria-label="Page navigation" style="text-align: center">
+    <div class="container">
+        <ul class="pagination">
+            <li>
+                <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li th:each="number:${numberList}">
+                <a th:href="@{/admin/selectAllMaterial(index=${number},material_upload_department=${material_upload_department})}" th:text="${number}"></a>
+            </li>
+            <li>
+                <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+</body>
+</html>
