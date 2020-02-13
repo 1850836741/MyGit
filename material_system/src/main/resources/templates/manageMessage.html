@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
@@ -123,18 +122,13 @@
     </table>
 </div>
 
-<div class="list-group col-md-offset-3 col-lg-offset-4col-xl-offset-4" th:if="${collegeList!=null}">
-
-    <div th:each="c:${collegeList}" class="list-group-item list-group-item-success">
-        <span th:text="${c.getCollege_authority()}"></span><span>账号：</span><h4 th:text="${c.getCollege_account()}"></h4>
-        <p style="color: #122b40">
-            学院：<span th:text="${c.getCollege_name()}"></span>
-        </p>
-        <a  th:href="@{/admin/toNoticeCollege(college_account=${c.getCollege_account()})}"
-         th:text="发送通知">
-        </a>
-        <a  th:href="@{/admin/deleteCollege(college_account=${c.getCollege_account()})}" th:text="删除"></a>
-    </div>
+<div class="list-group list-group col-md-offset-3" th:if="${messages!=null}">
+    <span th:each="message:${messages}" class="list-group-item list-group-item-info">
+        <h4 th:text="${message.getMessage_name()}"></h4>
+        <span th:text="${message.getCreat_time()}"></span>
+        <a th:href="@{/user/getMessageById(message_id=${message.getMessage_id()},material_upload_college=${#session.getAttribute('college')})}">查看消息</a>
+        <a th:href="@{/admin/deleteMessageById(message_id=${message.getMessage_id()})}">删除消息</a>
+    </span>
 </div>
 </body>
 </html>

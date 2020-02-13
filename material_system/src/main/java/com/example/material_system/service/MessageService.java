@@ -57,4 +57,20 @@ public class MessageService {
     public Message getMessageById(int message_id){
         return messageMapper.getMessageById(message_id);
     }
+
+    /**
+     * 删除消息
+     * @param message_id
+     */
+    public void deleteMessageById(int message_id){
+        messageMapper.deleteMessageById(message_id);
+    }
+
+    /**
+     * 按时间无限制获取所有消息
+     * @return
+     */
+    public List<Message> getAllMessageNotLimit(){
+        return messageMapper.getAllMessageNotLimit();
+    }
 }

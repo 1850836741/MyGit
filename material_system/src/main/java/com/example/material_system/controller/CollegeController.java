@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -21,12 +22,13 @@ public class CollegeController {
     ConcurrentHashMap<String,String> concurrentHashMap;
 
     /**
-     * 获取所有非管理员名字
+     * 获取所有除自己之外学院的名字
      * @return
      */
     @GetMapping(value = "/admin/getAllCollege")
-    public String getAllCollege(Model model){
-        List<College> collegeList = collegeMapper.getAllCollege();
+    public String getAllCollege(HttpServletRequest httpServletRequest, Model model){
+        int college_account = Integer.parseInt((String) httpServletRequest.getSession().getAttribute("account"));
+        List<College> collegeList = collegeMapper.getAllCollege(college_account);
         model.addAttribute("collegeList",collegeList);
         return "/allCollege";
     }
@@ -41,7 +43,7 @@ public class CollegeController {
     @PostMapping(value = "/admin/noticeCollege")
     public String noticeCollege(int college_account, String notice,Model model){
         concurrentHashMap.put(String.valueOf(college_account),notice);
-        List<College> collegeList = collegeMapper.getAllCollege();
+        List<College> collegeList = collegeMapper.getAllCollege(college_account);
         model.addAttribute("collegeList",collegeList);
         return "/allCollege";
     }
@@ -86,7 +88,6 @@ public class CollegeController {
         if (college.getCollege_name()==null||college.getCollege_name().trim()==""){
             college.setCollege_name("计算机与信息工程学院");
         }
-        college.setCollege_authority("ROLE_USER");
         collegeMapper.addCollege(college);
         return "redirect:/admin/toAddCollege";
     }
@@ -100,8 +101,6 @@ public class CollegeController {
     @GetMapping(value = "/admin/deleteCollege")
     public String deleteCollege(int college_account,Model model){
         collegeMapper.deleteCollege(college_account);
-        List<College> collegeList = collegeMapper.getAllCollege();
-        model.addAttribute("collegeList",collegeList);
-        return "/allCollege";
+        return "redirect:/admin/getAllCollege";
     }
 }

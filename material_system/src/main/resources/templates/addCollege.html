@@ -25,8 +25,9 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="/">返回用户主页</a></li>
-                <li><a href="/logout">登出</a></li>
                 <li><a href="/admin/adminIndex" >生成Excel界面</a></li>
+                <li><a href="/logout">注销用户</a></li>
+                <li><a href="/login">登陆</a></li>
             </ul>
         </div>
     </div>
@@ -108,6 +109,7 @@
                         <h2 class="obtain">添加消息<i></i></h2>
                         <div class="secondary">
                             <a href="/admin/toAddMessage"><h3>添加消息</h3></a>
+                            <a href="/admin/toManageMessage"><h3>管理消息</h3></a>
                         </div>
                     </li>
                 </ul>
@@ -144,7 +146,14 @@
         </div>
         <p/>
     </div>
+    <div>
+        <label><input type="radio" name="college_authority" value="ROLE_USER">普通用户</label>
+        <label><input type="radio" name="college_authority" value="ROLE_ADMIN">管理员</label>
+    </div>
     <div style="text-align: center"><input type="submit" value="提交" class="btn btn-primary btn-lg "></div>
 </form>
+<script type="text/javascript">
+    $('input:radio:first').attr('checked', 'checked');
+</script>
 </body>
 </html>

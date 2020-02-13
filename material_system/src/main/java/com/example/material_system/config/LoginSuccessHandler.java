@@ -15,11 +15,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-@SessionAttributes(value = {"notice","college"})
+@SessionAttributes(value = {"notice","college","grade","account"})
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Autowired(required = false)
@@ -32,6 +31,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetails.getUsername();
+        httpServletRequest.getSession().setAttribute("account",username);
         httpServletRequest.getSession().setAttribute("college",collegeMapper.getCollegeAllInformation(Integer.parseInt(username)).getCollege_name());
         if (concurrentHashMap.containsKey(username)){
             httpServletRequest.getSession().setAttribute("notice",concurrentHashMap.get(username));
@@ -39,8 +39,10 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         concurrentHashMap.remove(username);
         if (userDetails.getAuthorities().toString().contains("ROLE_ADMIN")){
             httpServletResponse.sendRedirect("/admin/adminIndex");
+            httpServletRequest.getSession().setAttribute("grade","ROLE_ADMIN");
             return;
         }
+        httpServletRequest.getSession().setAttribute("grade","ROLE_USER");
         httpServletResponse.sendRedirect("/");
     }
 }

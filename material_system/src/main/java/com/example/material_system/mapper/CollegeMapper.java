@@ -15,8 +15,8 @@ public interface CollegeMapper {
     @Select("SELECT college_account,college_password,college_authority,college_name FROM college WHERE college_account = #{college_account}")
     College getCollegeAllInformation(@Param(value = "college_account") int college_account);
 
-    @Select("SELECT college_account,college_password,college_authority,college_name FROM college WHERE college_authority = 'ROLE_USER'")
-    List<College> getAllCollege();
+    @Select("SELECT college_account,college_password,college_authority,college_name FROM college WHERE college_account != #{college_account}")
+    List<College> getAllCollege(int college_account);
 
     @Select("SELECT DISTINCT college_name FROM college")
     List<String> getAllCollegeName();

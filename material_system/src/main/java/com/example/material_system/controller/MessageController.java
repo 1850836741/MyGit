@@ -23,6 +23,7 @@ public class MessageController {
 
     @Autowired(required = false)
     CollegeMapper collegeMapper;
+
     /**
      * 跳转首页
      * @param model
@@ -96,5 +97,28 @@ public class MessageController {
         model.addAttribute("message",message);
         model.addAttribute("college",material_upload_college);
         return "/messageInformation";
+    }
+
+    /**
+     * 删除消息
+     * @param message_id
+     * @return
+     */
+    @GetMapping(value = "/admin/deleteMessageById")
+    public String deleteMessageById(int message_id){
+        messageService.deleteMessageById(message_id);
+        return "redirect:/admin/toManageMessage";
+    }
+
+    /**
+     * 前往管理员管理消息界面
+     * @param model
+     * @return
+     */
+    @GetMapping(value = "/admin/toManageMessage")
+    public String toManageMessage(Model model){
+        List<Message> messages = messageService.getAllMessageNotLimit();
+        model.addAttribute("messages",messages);
+        return "/manageMessage";
     }
 }
